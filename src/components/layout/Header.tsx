@@ -98,7 +98,7 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="hidden lg:block text-[11px] tracking-[0.2em] uppercase transition-all duration-300 relative group font-light text-black hover:text-gold"
+                className="hidden lg:block text-[13px] tracking-[0.2em] uppercase transition-all duration-300 relative group font-light text-black hover:text-gold"
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-full h-[0.5px] bg-gold transform scale-x-0 transition-transform duration-300 ease-out origin-left group-hover:scale-x-100" />
@@ -131,7 +131,7 @@ export function Header() {
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="hidden md:block text-[10px] tracking-[0.2em] uppercase font-light text-black hover:text-gold transition-colors"
+                    className="hidden md:block text-[12px] tracking-[0.2em] uppercase font-light text-black hover:text-gold transition-colors"
                   >
                     Admin
                   </Link>
@@ -141,9 +141,9 @@ export function Header() {
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center justify-center h-7 w-7 md:h-8 md:w-8 rounded-full bg-gold/10 hover:bg-gold/20 transition-colors border border-gold/30"
+                    className="flex items-center justify-center h-8 w-8 md:h-9 md:w-9 rounded-full bg-gold/10 hover:bg-gold/20 transition-colors border border-gold/30"
                   >
-                    <User className="h-3.5 w-3.5 md:h-4 md:w-4 text-gold" />
+                    <User className="h-4 w-4 md:h-5 md:w-5 text-gold" />
                   </button>
 
                   {userMenuOpen && (
@@ -184,7 +184,7 @@ export function Header() {
             ) : (
               <Link
                 href="/sign-in"
-                className="hidden md:block text-[10px] tracking-[0.2em] uppercase font-light text-black hover:text-gold transition-colors"
+                className="hidden md:block text-[12px] tracking-[0.2em] uppercase font-light text-black hover:text-gold transition-colors"
               >
                 Sign In
               </Link>
@@ -194,18 +194,18 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-transparent h-7 w-7 md:h-8 md:w-8 text-black transition-colors duration-300 hover:text-gold"
+                className="hover:bg-transparent h-8 w-8 md:h-9 md:w-9 text-black transition-colors duration-300 hover:text-gold"
               >
-                <Search className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                <Search className="h-[18px] w-[18px] md:h-5 md:w-5" />
               </Button>
             </Link>
             <Link href="/cart" className="relative">
               <Button
                 variant="ghost"
                 size="icon"
-                className="hover:bg-transparent h-7 w-7 md:h-8 md:w-8 text-black transition-colors duration-300 hover:text-gold"
+                className="hover:bg-transparent h-8 w-8 md:h-9 md:w-9 text-black transition-colors duration-300 hover:text-gold"
               >
-                <ShoppingBag className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                <ShoppingBag className="h-[18px] w-[18px] md:h-5 md:w-5" />
               </Button>
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[#C49B08] text-white text-[10px] font-medium flex items-center justify-center leading-none">
