@@ -1,7 +1,9 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout/Layout";
-import { Award, Heart, Shield, Gem } from "lucide-react";
+import { Award, Heart, Shield, Gem, MapPin, Phone, Mail } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 
 const values = [
   {
@@ -34,6 +36,18 @@ const milestones = [
 ];
 
 export default function About() {
+  const { data: branches } = useQuery({
+    queryKey: ["branches-public"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("branches")
+        .select("id, name, address, city, phone, email")
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   return (
     <Layout>
       <div className="min-h-screen bg-white">
@@ -168,8 +182,71 @@ export default function About() {
           </div>
         </section>
 
+        {/* Branches */}
+        {branches && branches.length > 0 && (
+          <section className="py-16 md:py-24 bg-gray-50">
+            <div className="container mx-auto px-4 lg:px-8">
+              <div className="text-center mb-12">
+                <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+                  Find Us
+                </p>
+                <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+                  OUR LOCATIONS
+                </h2>
+                <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+                {branches.map((branch) => (
+                  <div
+                    key={branch.id}
+                    className="bg-white border border-gray-200 rounded-xl p-6 hover:border-[#C49B08]/40 hover:shadow-sm transition-all duration-300"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#C49B08]/8 flex items-center justify-center mb-4">
+                      <MapPin className="h-5 w-5 text-[#C49B08]" />
+                    </div>
+                    <h3 className="font-inter text-sm font-semibold tracking-wide text-gray-900 mb-3">
+                      {branch.name}
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <MapPin className="h-3.5 w-3.5 text-gray-400 mt-0.5 shrink-0" />
+                        <p className="font-inter text-xs text-gray-500 leading-relaxed">
+                          {branch.address}, {branch.city}
+                        </p>
+                      </div>
+                      {branch.phone && (
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                          <a
+                            href={`tel:${branch.phone}`}
+                            className="font-inter text-xs text-gray-500 hover:text-[#C49B08] transition-colors"
+                          >
+                            {branch.phone}
+                          </a>
+                        </div>
+                      )}
+                      {branch.email && (
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                          <a
+                            href={`mailto:${branch.email}`}
+                            className="font-inter text-xs text-gray-500 hover:text-[#C49B08] transition-colors break-all"
+                          >
+                            {branch.email}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Visit Us */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-4 lg:px-8 text-center">
             <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
               Visit Our Showroom
