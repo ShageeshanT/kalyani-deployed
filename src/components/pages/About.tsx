@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout/Layout";
-import { Award, Heart, Shield, Gem, MapPin, Phone, Mail } from "lucide-react";
+import { Award, Heart, Shield, Gem, MapPin, Phone, Mail, Star, Send, MessageSquare } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 
 const values = [
@@ -36,6 +37,7 @@ const milestones = [
 ];
 
 export default function About() {
+  // Branches query
   const { data: branches } = useQuery({
     queryKey: ["branches-public"],
     queryFn: async () => {
@@ -47,6 +49,54 @@ export default function About() {
       return data;
     },
   });
+
+  // Approved testimonials query
+  const { data: testimonials } = useQuery({
+    queryKey: ["approved-testimonials"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("id, name, rating, message, created_at")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(6);
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Testimonial form state
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.message.trim() || rating === 0) {
+      setFormError("Please fill in your name, write a message, and select a star rating.");
+      return;
+    }
+    setSubmitting(true);
+    setFormError("");
+
+    const { error } = await supabase.from("testimonials").insert({
+      name: formData.name.trim(),
+      email: formData.email.trim() || null,
+      rating,
+      message: formData.message.trim(),
+      status: "pending",
+    });
+
+    setSubmitting(false);
+    if (error) {
+      setFormError("Something went wrong. Please try again.");
+      return;
+    }
+    setSubmitted(true);
+  };
 
   return (
     <Layout>
@@ -244,6 +294,206 @@ export default function About() {
             </div>
           </section>
         )}
+
+        {/* Approved Testimonials Display */}
+        {testimonials && testimonials.length > 0 && (
+          <section className="py-16 md:py-24 bg-white">
+            <div className="container mx-auto px-4 lg:px-8">
+              <div className="text-center mb-12">
+                <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+                  Our Customers
+                </p>
+                <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+                  WHAT THEY SAY
+                </h2>
+                <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+                {testimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="bg-white border border-gray-200 rounded-xl p-6 hover:border-[#C49B08]/30 hover:shadow-sm transition-all duration-300 flex flex-col"
+                  >
+                    {/* Stars */}
+                    <div className="flex gap-0.5 mb-4">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-3.5 w-3.5 ${
+                            star <= t.rating
+                              ? "fill-[#C49B08] text-[#C49B08]"
+                              : "fill-gray-100 text-gray-200"
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Quote */}
+                    <p className="font-inter text-sm text-gray-600 leading-relaxed flex-1 italic">
+                      &ldquo;{t.message}&rdquo;
+                    </p>
+
+                    {/* Name */}
+                    <div className="mt-5 pt-4 border-t border-gray-100">
+                      <p className="font-inter text-xs font-semibold tracking-wide text-gray-900">
+                        {t.name}
+                      </p>
+                      <p className="font-inter text-[10px] text-gray-400 mt-0.5">
+                        {new Date(t.created_at).toLocaleDateString("en-GB", {
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Share Your Experience — Testimonial Form */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="text-center mb-10">
+              <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+                We&apos;d Love to Hear From You
+              </p>
+              <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+                SHARE YOUR EXPERIENCE
+              </h2>
+              <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
+            </div>
+
+            <div className="max-w-xl mx-auto">
+              {submitted ? (
+                <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#C49B08]/10 flex items-center justify-center">
+                    <MessageSquare className="h-6 w-6 text-[#C49B08]" />
+                  </div>
+                  <h3 className="font-inter text-base font-semibold text-gray-900 mb-2">
+                    Thank you for sharing!
+                  </h3>
+                  <p className="font-inter text-sm text-gray-500">
+                    Your testimonial has been submitted and is pending review. We appreciate your feedback.
+                  </p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 space-y-5"
+                >
+                  {/* Star Rating */}
+                  <div>
+                    <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-3 block">
+                      Your Rating <span className="text-red-400">*</span>
+                    </label>
+                    <div className="flex gap-1.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setRating(star)}
+                          onMouseEnter={() => setHoverRating(star)}
+                          onMouseLeave={() => setHoverRating(0)}
+                          className="transition-transform hover:scale-110 focus:outline-none"
+                        >
+                          <Star
+                            className={`h-7 w-7 transition-colors ${
+                              star <= (hoverRating || rating)
+                                ? "fill-[#C49B08] text-[#C49B08]"
+                                : "fill-gray-100 text-gray-300"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-1.5 block">
+                      Your Name <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Priya Fernando"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, name: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors"
+                    />
+                  </div>
+
+                  {/* Email (optional) */}
+                  <div>
+                    <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-1.5 block">
+                      Email{" "}
+                      <span className="text-gray-400 normal-case font-normal">
+                        (optional, not displayed)
+                      </span>
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, email: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors"
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-1.5 block">
+                      Your Experience <span className="text-red-400">*</span>
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Tell us about your experience with New Kalyani Jewellers..."
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, message: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors resize-none"
+                    />
+                  </div>
+
+                  {/* Error */}
+                  {formError && (
+                    <p className="font-inter text-xs text-red-500">{formError}</p>
+                  )}
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter text-xs tracking-[0.15em] uppercase rounded-lg transition-colors disabled:opacity-60"
+                  >
+                    {submitting ? (
+                      <>
+                        <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-3.5 w-3.5" />
+                        Submit Testimonial
+                      </>
+                    )}
+                  </button>
+
+                  <p className="font-inter text-[10px] text-gray-400 text-center">
+                    Testimonials are reviewed before being published on our site.
+                  </p>
+                </form>
+              )}
+            </div>
+          </div>
+        </section>
 
         {/* Visit Us */}
         <section className="py-16 md:py-24 bg-white">

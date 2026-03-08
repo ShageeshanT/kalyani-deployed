@@ -3,12 +3,13 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Layout } from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Package, Palette, GitBranch, Wrench, Gem } from "lucide-react";
+import { Loader2, Package, Palette, GitBranch, Wrench, Gem, MessageSquare } from "lucide-react";
 import AdminProducts from "@/components/admin/AdminProducts";
 import AdminCustomRequests from "@/components/admin/AdminCustomRequests";
 import AdminRepairRequests from "@/components/admin/AdminRepairRequests";
 import AdminBranches from "@/components/admin/AdminBranches";
 import AdminGems from "@/components/admin/AdminGems";
+import AdminTestimonials from "@/components/admin/AdminTestimonials";
 
 const Admin = () => {
   const { loading, isAdmin } = useAuth();
@@ -43,7 +44,7 @@ const Admin = () => {
 
           <Tabs defaultValue="products" className="w-full">
             <div className="overflow-x-auto mb-6">
-            <TabsList className="bg-white border border-gray-200 rounded-lg p-1 grid grid-cols-5 min-w-[520px] w-full max-w-2xl">
+            <TabsList className="bg-white border border-gray-200 rounded-lg p-1 grid grid-cols-6 min-w-[640px] w-full max-w-3xl">
               <TabsTrigger
                 value="products"
                 className="text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md text-sm gap-1.5"
@@ -79,6 +80,13 @@ const Admin = () => {
                 <Gem size={15} />
                 Gems
               </TabsTrigger>
+              <TabsTrigger
+                value="testimonials"
+                className="text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md text-sm gap-1.5"
+              >
+                <MessageSquare size={15} />
+                Reviews
+              </TabsTrigger>
             </TabsList>
             </div>
 
@@ -100,6 +108,10 @@ const Admin = () => {
 
             <TabsContent value="gems">
               <AdminGems />
+            </TabsContent>
+
+            <TabsContent value="testimonials">
+              <AdminTestimonials />
             </TabsContent>
           </Tabs>
         </div>
