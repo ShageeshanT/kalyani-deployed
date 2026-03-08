@@ -29,6 +29,14 @@ const values = [
   },
 ];
 
+const SL_DISTRICTS = [
+  "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo",
+  "Galle", "Gampaha", "Hambantota", "Jaffna", "Kalutara",
+  "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar",
+  "Matale", "Matara", "Monaragala", "Mullaitivu", "Nuwara Eliya",
+  "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya",
+];
+
 const milestones = [
   { year: "1985", title: "Foundation", description: "New Kalyani Jewellers was established in Colombo with a vision to bring exceptional craftsmanship to Sri Lanka." },
   { year: "1995", title: "Expansion", description: "Opened our flagship showroom and introduced our first signature bridal collection." },
@@ -56,7 +64,7 @@ export default function About() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("testimonials")
-        .select("id, name, rating, message, created_at")
+        .select("id, name, district, rating, message, created_at")
         .eq("status", "approved")
         .order("created_at", { ascending: false })
         .limit(6);
@@ -68,15 +76,15 @@ export default function About() {
   // Testimonial form state
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", district: "", email: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.message.trim() || rating === 0) {
-      setFormError("Please fill in your name, write a message, and select a star rating.");
+    if (!formData.name.trim() || !formData.district || !formData.message.trim() || rating === 0) {
+      setFormError("Please fill in your name, select your district, write a message, and choose a star rating.");
       return;
     }
     setSubmitting(true);
@@ -84,6 +92,7 @@ export default function About() {
 
     const { error } = await supabase.from("testimonials").insert({
       name: formData.name.trim(),
+      district: formData.district,
       email: formData.email.trim() || null,
       rating,
       message: formData.message.trim(),
@@ -334,11 +343,16 @@ export default function About() {
                       &ldquo;{t.message}&rdquo;
                     </p>
 
-                    {/* Name */}
+                    {/* Name + District */}
                     <div className="mt-5 pt-4 border-t border-gray-100">
                       <p className="font-inter text-xs font-semibold tracking-wide text-gray-900">
                         {t.name}
                       </p>
+                      {t.district && (
+                        <p className="font-inter text-[11px] text-[#C49B08] mt-0.5">
+                          {t.district}
+                        </p>
+                      )}
                       <p className="font-inter text-[10px] text-gray-400 mt-0.5">
                         {new Date(t.created_at).toLocaleDateString("en-GB", {
                           month: "long",
@@ -425,6 +439,25 @@ export default function About() {
                       }
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors"
                     />
+                  </div>
+
+                  {/* District */}
+                  <div>
+                    <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-1.5 block">
+                      District <span className="text-red-400">*</span>
+                    </label>
+                    <select
+                      value={formData.district}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, district: e.target.value }))
+                      }
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 focus:outline-none focus:border-[#C49B08] transition-colors bg-white appearance-none cursor-pointer"
+                    >
+                      <option value="">Select your district</option>
+                      {SL_DISTRICTS.map((d) => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
                   </div>
 
                   {/* Email (optional) */}

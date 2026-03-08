@@ -8,6 +8,7 @@ import { Check, X, Trash2, Star, Loader2, MessageSquare } from "lucide-react";
 type Testimonial = {
   id: string;
   name: string;
+  district: string | null;
   email: string | null;
   rating: number;
   message: string;
@@ -173,6 +174,11 @@ export default function AdminTestimonials() {
                     <span className="font-inter text-sm font-semibold text-gray-900">
                       {t.name}
                     </span>
+                    {t.district && (
+                      <span className="font-inter text-xs text-[#C49B08] font-medium">
+                        {t.district}
+                      </span>
+                    )}
                     {t.email && (
                       <span className="font-inter text-xs text-gray-400">
                         {t.email}
