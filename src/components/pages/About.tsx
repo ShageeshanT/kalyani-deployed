@@ -1,32 +1,81 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout/Layout";
-import { Award, Heart, Shield, Gem, MapPin, Phone, Mail, Star, Send, MessageSquare } from "lucide-react";
+import {
+  Award, Heart, Shield, Gem, MapPin, Phone, Mail,
+  Star, Send, MessageSquare, ArrowRight,
+} from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+
+const stats = [
+  { number: "40+",    label: "Years of Excellence" },
+  { number: "10,000+", label: "Happy Customers" },
+  { number: "500+",   label: "Unique Designs" },
+  { number: "3",      label: "Showroom Locations" },
+];
 
 const values = [
   {
     icon: Award,
     title: "Master Craftsmanship",
-    description: "Each piece is meticulously handcrafted by our skilled artisans with decades of experience in traditional goldsmithing.",
+    description:
+      "Each piece is meticulously handcrafted by our skilled artisans with decades of experience in traditional goldsmithing.",
   },
   {
     icon: Heart,
     title: "Passion for Perfection",
-    description: "We pour our heart into every creation, ensuring each jewel reflects our commitment to excellence and beauty.",
+    description:
+      "We pour our heart into every creation, ensuring each jewel reflects our commitment to excellence and beauty.",
   },
   {
     icon: Shield,
     title: "Trusted Quality",
-    description: "We use only the finest materials with BIS hallmarked gold and certified gemstones, backed by our quality guarantee.",
+    description:
+      "We use only the finest materials with BIS hallmarked gold and certified gemstones, backed by our quality guarantee.",
   },
   {
     icon: Gem,
     title: "Timeless Designs",
-    description: "Our collections blend traditional Sri Lankan artistry with contemporary aesthetics for pieces that transcend generations.",
+    description:
+      "Our collections blend traditional Sri Lankan artistry with contemporary aesthetics for pieces that transcend generations.",
   },
+];
+
+const craftSteps = [
+  {
+    step: "01",
+    title: "Design",
+    description:
+      "Our master designers sketch each piece by hand, blending traditional motifs with contemporary elegance to capture your vision.",
+    image:
+      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&h=750&fit=crop&q=80",
+  },
+  {
+    step: "02",
+    title: "Create",
+    description:
+      "Skilled artisans bring designs to life using time-honoured goldsmithing techniques passed through generations of craftsmanship.",
+    image:
+      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&h=750&fit=crop&q=80",
+  },
+  {
+    step: "03",
+    title: "Deliver",
+    description:
+      "Every piece is meticulously inspected, hallmarked, and presented in our signature packaging — ready to be cherished.",
+    image:
+      "https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600&h=750&fit=crop&q=80",
+  },
+];
+
+const milestones = [
+  { year: "1985", title: "Foundation",   description: "New Kalyani Jewellers was established in Colombo with a vision to bring exceptional craftsmanship to Sri Lanka." },
+  { year: "1995", title: "Expansion",    description: "Opened our flagship showroom and introduced our first signature bridal collection." },
+  { year: "2010", title: "Recognition",  description: "Received the National Excellence Award for outstanding contribution to the jewelry industry." },
+  { year: "2024", title: "Digital Era",  description: "Launched our online presence to serve customers across Sri Lanka and beyond." },
 ];
 
 const SL_DISTRICTS = [
@@ -37,15 +86,7 @@ const SL_DISTRICTS = [
   "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya",
 ];
 
-const milestones = [
-  { year: "1985", title: "Foundation", description: "New Kalyani Jewellers was established in Colombo with a vision to bring exceptional craftsmanship to Sri Lanka." },
-  { year: "1995", title: "Expansion", description: "Opened our flagship showroom and introduced our first signature bridal collection." },
-  { year: "2010", title: "Recognition", description: "Received the National Excellence Award for outstanding contribution to the jewelry industry." },
-  { year: "2024", title: "Digital Era", description: "Launched our online presence to serve customers across Sri Lanka and beyond." },
-];
-
 export default function About() {
-  // Branches query
   const { data: branches } = useQuery({
     queryKey: ["branches-public"],
     queryFn: async () => {
@@ -58,13 +99,12 @@ export default function About() {
     },
   });
 
-  // Testimonial form state
-  const [rating, setRating] = useState(0);
+  const [rating, setRating]         = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [formData, setFormData] = useState({ name: "", district: "", email: "", message: "" });
+  const [formData, setFormData]     = useState({ name: "", district: "", email: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [formError, setFormError] = useState("");
+  const [submitted, setSubmitted]   = useState(false);
+  const [formError, setFormError]   = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,12 +116,12 @@ export default function About() {
     setFormError("");
 
     const { error } = await supabase.from("testimonials").insert({
-      name: formData.name.trim(),
+      name:     formData.name.trim(),
       district: formData.district,
-      email: formData.email.trim() || null,
+      email:    formData.email.trim() || null,
       rating,
-      message: formData.message.trim(),
-      status: "pending",
+      message:  formData.message.trim(),
+      status:   "pending",
     });
 
     setSubmitting(false);
@@ -96,23 +136,52 @@ export default function About() {
     <Layout>
       <div className="min-h-screen bg-white">
 
-        {/* Hero */}
-        <section className="py-20 md:py-28 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-4 lg:px-8 text-center">
-            <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+        {/* ── Full-Bleed Hero ── */}
+        <section className="relative h-[65vh] min-h-[440px] flex items-center justify-center overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1400&h=700&fit=crop&q=80"
+            alt="Kalyani Jewellers"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/70" />
+          {/* Decorative corner frame */}
+          <div className="absolute top-8 left-8 right-8 bottom-8 border border-[#C49B08]/25 pointer-events-none hidden md:block" />
+
+          <div className="relative z-10 text-center px-4">
+            <p className="font-inter text-[11px] tracking-[0.45em] text-[#C49B08] uppercase mb-5">
               Our Story
             </p>
-            <h1 className="font-inter text-4xl md:text-5xl font-light tracking-[0.25em] text-gray-900 mb-5">
+            <h1 className="font-inter text-4xl md:text-6xl font-light tracking-[0.3em] text-white mb-5">
               ABOUT US
             </h1>
-            <div className="w-12 h-px bg-[#C49B08]/50 mx-auto mb-6" />
-            <p className="font-inter text-sm text-gray-500 tracking-wide max-w-2xl mx-auto leading-relaxed">
-              For nearly four decades, New Kalyani Jewellers has been crafting exquisite pieces that celebrate life's most precious moments. Our journey began with a simple belief — that every piece of jewelry should tell a story.
+            <div className="w-12 h-px bg-[#C49B08]/60 mx-auto mb-6" />
+            <p className="font-inter text-sm text-white/70 tracking-wide max-w-xl mx-auto leading-relaxed">
+              For nearly four decades, New Kalyani Jewellers has been crafting exquisite pieces
+              that celebrate life&apos;s most precious moments.
             </p>
           </div>
         </section>
 
-        {/* Values */}
+        {/* ── Stats Strip ── */}
+        <section className="py-10 bg-white border-b border-gray-100">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {stats.map((stat) => (
+                <div key={stat.label} className="py-2">
+                  <p className="font-inter text-3xl md:text-4xl font-light text-[#C49B08] tracking-wide mb-1">
+                    {stat.number}
+                  </p>
+                  <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-400">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Values ── */}
         <section className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="text-center mb-12">
@@ -146,7 +215,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Story */}
+        {/* ── Our Story ── */}
         <section className="py-16 md:py-24 bg-gray-50">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -160,13 +229,20 @@ export default function About() {
                 <div className="w-10 h-px bg-[#C49B08]/50 mb-8" />
                 <div className="space-y-4 font-inter text-sm text-gray-500 leading-relaxed">
                   <p>
-                    Founded in 1985 by Master Goldsmith Kalyani Perera, our journey began in a small workshop in the heart of Colombo. With unwavering dedication to craftsmanship and an eye for timeless design, we quickly became a trusted name among discerning jewelry enthusiasts.
+                    Founded in 1985 by Master Goldsmith Kalyani Perera, our journey began in a small
+                    workshop in the heart of Colombo. With unwavering dedication to craftsmanship and
+                    an eye for timeless design, we quickly became a trusted name among discerning
+                    jewelry enthusiasts.
                   </p>
                   <p>
-                    Today, New Kalyani Jewellers stands as a testament to the enduring appeal of handcrafted jewelry. Our artisans continue to blend traditional techniques passed down through generations with contemporary design sensibilities, creating pieces that are both classic and modern.
+                    Today, New Kalyani Jewellers stands as a testament to the enduring appeal of
+                    handcrafted jewelry. Our artisans continue to blend traditional techniques passed
+                    down through generations with contemporary design sensibilities, creating pieces
+                    that are both classic and modern.
                   </p>
                   <p>
-                    Every piece that leaves our workshop carries with it our promise of quality, authenticity, and the personal touch that only true craftsmanship can provide.
+                    Every piece that leaves our workshop carries with it our promise of quality,
+                    authenticity, and the personal touch that only true craftsmanship can provide.
                   </p>
                 </div>
               </div>
@@ -174,7 +250,7 @@ export default function About() {
               <div className="relative">
                 <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gray-100">
                   <img
-                    src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&h=750&fit=crop"
+                    src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&h=750&fit=crop&q=80"
                     alt="Jewelry craftsmanship"
                     className="w-full h-full object-cover"
                   />
@@ -185,8 +261,50 @@ export default function About() {
           </div>
         </section>
 
-        {/* Timeline */}
+        {/* ── Our Craft (Process) ── */}
         <section className="py-16 md:py-24 bg-white">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="text-center mb-12">
+              <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+                The Process
+              </p>
+              <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+                OUR CRAFT
+              </h2>
+              <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {craftSteps.map((step) => (
+                <div key={step.step} className="group relative overflow-hidden rounded-xl">
+                  <div className="aspect-[3/4] overflow-hidden">
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <p className="font-inter text-[#C49B08] text-[10px] tracking-[0.35em] uppercase mb-1.5">
+                      Step {step.step}
+                    </p>
+                    <h3 className="font-inter text-xl font-light tracking-[0.15em] text-white mb-2">
+                      {step.title}
+                    </h3>
+                    <p className="font-inter text-xs text-white/70 leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Milestones ── */}
+        <section className="py-16 md:py-24 bg-gray-50">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="text-center mb-12">
               <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
@@ -226,9 +344,44 @@ export default function About() {
           </div>
         </section>
 
-        {/* Branches */}
+        {/* ── CTA Banner ── */}
+        <section className="relative py-20 overflow-hidden">
+          {/* Background image with dark tint */}
+          <img
+            src="https://images.unsplash.com/photo-1601121141418-b49661b3b056?w=1400&h=500&fit=crop&q=70"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/72" />
+          {/* Inner decorative border */}
+          <div className="absolute top-5 left-5 right-5 bottom-5 border border-[#C49B08]/20 rounded-xl pointer-events-none" />
+
+          <div className="relative z-10 text-center px-4">
+            <p className="font-inter text-[11px] tracking-[0.45em] text-[#C49B08] uppercase mb-5">
+              Discover More
+            </p>
+            <h2 className="font-inter text-3xl md:text-4xl font-light tracking-[0.25em] text-white mb-5">
+              EXPLORE OUR COLLECTION
+            </h2>
+            <div className="w-10 h-px bg-[#C49B08]/50 mx-auto mb-7" />
+            <p className="font-inter text-sm text-white/55 max-w-md mx-auto mb-8 leading-relaxed">
+              Browse our curated selection of handcrafted gold jewellery, custom pieces,
+              and certified gemstones — each one a story waiting to be worn.
+            </p>
+            <Link
+              href="/collections"
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08] hover:text-white font-inter text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300 group"
+            >
+              Browse Collection
+              <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        </section>
+
+        {/* ── Our Locations ── */}
         {branches && branches.length > 0 && (
-          <section className="py-16 md:py-24 bg-gray-50">
+          <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 lg:px-8">
               <div className="text-center mb-12">
                 <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
@@ -289,7 +442,7 @@ export default function About() {
           </section>
         )}
 
-        {/* Share Your Experience — Testimonial Form */}
+        {/* ── Share Your Experience (Testimonial Form) ── */}
         <section className="py-16 md:py-24 bg-gray-50">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="text-center mb-10">
@@ -356,9 +509,7 @@ export default function About() {
                       type="text"
                       placeholder="e.g. Priya Fernando"
                       value={formData.name}
-                      onChange={(e) =>
-                        setFormData((p) => ({ ...p, name: e.target.value }))
-                      }
+                      onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors"
                     />
                   </div>
@@ -370,9 +521,7 @@ export default function About() {
                     </label>
                     <select
                       value={formData.district}
-                      onChange={(e) =>
-                        setFormData((p) => ({ ...p, district: e.target.value }))
-                      }
+                      onChange={(e) => setFormData((p) => ({ ...p, district: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 focus:outline-none focus:border-[#C49B08] transition-colors bg-white appearance-none cursor-pointer"
                     >
                       <option value="">Select your district</option>
@@ -386,17 +535,13 @@ export default function About() {
                   <div>
                     <label className="font-inter text-xs font-medium text-gray-700 tracking-wide uppercase mb-1.5 block">
                       Email{" "}
-                      <span className="text-gray-400 normal-case font-normal">
-                        (optional, not displayed)
-                      </span>
+                      <span className="text-gray-400 normal-case font-normal">(optional, not displayed)</span>
                     </label>
                     <input
                       type="email"
                       placeholder="your@email.com"
                       value={formData.email}
-                      onChange={(e) =>
-                        setFormData((p) => ({ ...p, email: e.target.value }))
-                      }
+                      onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors"
                     />
                   </div>
@@ -410,19 +555,15 @@ export default function About() {
                       rows={4}
                       placeholder="Tell us about your experience with New Kalyani Jewellers..."
                       value={formData.message}
-                      onChange={(e) =>
-                        setFormData((p) => ({ ...p, message: e.target.value }))
-                      }
+                      onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#C49B08] transition-colors resize-none"
                     />
                   </div>
 
-                  {/* Error */}
                   {formError && (
                     <p className="font-inter text-xs text-red-500">{formError}</p>
                   )}
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={submitting}
@@ -450,7 +591,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Visit Us */}
+        {/* ── Visit Us ── */}
         <section className="py-16 md:py-24 bg-white">
           <div className="container mx-auto px-4 lg:px-8 text-center">
             <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
@@ -461,7 +602,8 @@ export default function About() {
             </h2>
             <div className="w-10 h-px bg-[#C49B08]/50 mx-auto mb-8" />
             <p className="font-inter text-sm text-gray-500 tracking-wide max-w-xl mx-auto mb-8 leading-relaxed">
-              We invite you to visit our showroom and experience our collections firsthand. Our expert consultants are ready to help you find the perfect piece.
+              We invite you to visit our showroom and experience our collections firsthand.
+              Our expert consultants are ready to help you find the perfect piece.
             </p>
             <div className="font-inter text-sm text-gray-700 tracking-wide space-y-1">
               <p>475/A Kaduwela Rd</p>
