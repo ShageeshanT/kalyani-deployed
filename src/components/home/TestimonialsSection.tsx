@@ -1,88 +1,90 @@
-import { Star, Quote } from "lucide-react";
+"use client";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Priya Fernandopulle",
-    location: "Colombo",
-    rating: 5,
-    text: "The craftsmanship is exceptional. My engagement ring from Luxe Jewels is absolutely stunning. The attention to detail is remarkable.",
-  },
-  {
-    id: 2,
-    name: "Dinesh Jayawardena",
-    location: "Kandy",
-    rating: 5,
-    text: "I've been a customer for over 10 years. Their custom design service brought my grandmother's heirloom back to life beautifully.",
-  },
-  {
-    id: 3,
-    name: "Amara Silva",
-    location: "Galle",
-    rating: 5,
-    text: "Best jewelry store in Sri Lanka! The quality, the service, and the designs are all world-class. Highly recommend for any occasion.",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { Star } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 
 export function TestimonialsSection() {
+  const { data: testimonials } = useQuery({
+    queryKey: ["approved-testimonials"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("id, name, district, rating, message, created_at")
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(6);
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Don't render the section if there are no approved testimonials yet
+  if (!testimonials || testimonials.length === 0) return null;
+
   return (
-    <section className="py-20 bg-secondary/30">
+    <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
+
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm tracking-[0.3em] uppercase text-primary font-inter">
-            Testimonials
-          </span>
-          <h2 className="text-4xl md:text-5xl font-inter font-light tracking-[0.2em] mt-4 mb-6">
-            What Our Customers Say
+        <div className="text-center mb-12">
+          <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+            Our Customers
+          </p>
+          <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+            WHAT THEY SAY
           </h2>
+          <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          {testimonials.map((t) => (
             <div
-              key={testimonial.id}
-              className="luxury-card p-8 relative animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              key={t.id}
+              className="bg-white border border-gray-200 rounded-xl p-6 hover:border-[#C49B08]/30 hover:shadow-sm transition-all duration-300 flex flex-col"
             >
-              {/* Quote Icon */}
-              <div className="absolute top-6 right-6 text-primary/20">
-                <Quote className="h-12 w-12" />
-              </div>
-
               {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
+              <div className="flex gap-0.5 mb-4">
+                {[1, 2, 3, 4, 5].map((star) => (
                   <Star
-                    key={i}
-                    className="h-5 w-5 fill-primary text-primary"
+                    key={star}
+                    className={`h-3.5 w-3.5 ${
+                      star <= t.rating
+                        ? "fill-[#C49B08] text-[#C49B08]"
+                        : "fill-gray-100 text-gray-200"
+                    }`}
                   />
                 ))}
               </div>
 
-              {/* Text */}
-              <p className="text-muted-foreground leading-relaxed mb-6 italic font-inter tracking-wide">
-                "{testimonial.text}"
+              {/* Quote */}
+              <p className="font-inter text-sm text-gray-600 leading-relaxed flex-1 italic">
+                &ldquo;{t.message}&rdquo;
               </p>
 
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-inter font-semibold">
-                  {testimonial.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-inter font-medium tracking-wide">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground font-inter">
-                    {testimonial.location}
+              {/* Name + District */}
+              <div className="mt-5 pt-4 border-t border-gray-100">
+                <p className="font-inter text-xs font-semibold tracking-wide text-gray-900">
+                  {t.name}
+                </p>
+                {t.district && (
+                  <p className="font-inter text-[11px] text-[#C49B08] mt-0.5">
+                    {t.district}
                   </p>
-                </div>
+                )}
+                <p className="font-inter text-[10px] text-gray-400 mt-0.5">
+                  {new Date(t.created_at).toLocaleDateString("en-GB", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </p>
               </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
 }
-
