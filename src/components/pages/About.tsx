@@ -51,7 +51,7 @@ const craftSteps = [
     description:
       "Our master designers sketch each piece by hand, blending traditional motifs with contemporary elegance to capture your vision.",
     image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&h=750&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&h=750&fit=crop&q=80",
   },
   {
     step: "02",
@@ -67,7 +67,7 @@ const craftSteps = [
     description:
       "Every piece is meticulously inspected, hallmarked, and presented in our signature packaging — ready to be cherished.",
     image:
-      "https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=600&h=750&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1601121141418-b49661b3b056?w=600&h=750&fit=crop&q=80",
   },
 ];
 
@@ -250,7 +250,7 @@ export default function About() {
               <div className="relative">
                 <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gray-100">
                   <img
-                    src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600&h=750&fit=crop&q=80"
+                    src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=600&h=750&fit=crop&q=80"
                     alt="Jewelry craftsmanship"
                     className="w-full h-full object-cover"
                   />

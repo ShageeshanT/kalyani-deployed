@@ -77,7 +77,7 @@ export function Header() {
 
       {/* Single navbar row */}
       <nav className="px-3 sm:px-6 lg:px-10 relative z-10">
-        <div className="flex items-center h-14 sm:h-16 relative">
+        <div className="flex items-center h-16 sm:h-20 relative">
           {/* Left: Mobile menu button + Desktop Navigation */}
           <div className="flex items-center gap-8 flex-1">
             {/* Mobile menu button */}
@@ -147,36 +147,49 @@ export function Header() {
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-52 bg-card border border-border rounded-lg shadow-lg py-1 z-50">
-                      <div className="px-4 py-3 border-b border-border">
-                        <p className="text-xs font-inter text-muted-foreground truncate">
+                    <div className="absolute right-0 top-full mt-3 w-56 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden z-50">
+                      {/* Thin gold accent line at top */}
+                      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#C49B08] to-transparent" />
+
+                      {/* Email */}
+                      <div className="px-4 py-3.5 border-b border-gray-100 bg-gray-50/80">
+                        <p className="font-inter text-[11px] text-gray-400 truncate tracking-wide">
                           {user?.email}
                         </p>
                       </div>
+
+                      {/* My Account */}
                       <Link
                         href="/profile"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-inter font-light text-foreground hover:bg-muted transition-colors"
+                        className="flex items-center gap-3 px-4 py-3 font-inter text-xs tracking-[0.08em] text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors group"
                       >
-                        <Settings className="h-3.5 w-3.5" />
+                        <Settings className="h-3.5 w-3.5 text-gray-400 group-hover:text-gray-600 transition-colors" />
                         My Account
                       </Link>
+
+                      {/* Admin Dashboard */}
                       {isAdmin && (
                         <Link
                           href="/admin"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2.5 text-sm font-inter font-light text-gold hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-4 py-3 font-inter text-xs tracking-[0.08em] text-[#C49B08] hover:bg-[#C49B08]/6 transition-colors"
                         >
+                          <span className="h-3.5 w-3.5 rounded-full bg-[#C49B08]/20 flex items-center justify-center text-[#C49B08] text-[8px] font-bold">A</span>
                           Admin Dashboard
                         </Link>
                       )}
-                      <button
-                        onClick={handleSignOut}
-                        className="flex items-center gap-2 w-full px-4 py-2.5 text-sm font-inter font-light text-foreground hover:bg-muted transition-colors border-t border-border mt-1"
-                      >
-                        <LogOut className="h-3.5 w-3.5" />
-                        Sign Out
-                      </button>
+
+                      {/* Sign Out */}
+                      <div className="border-t border-gray-100">
+                        <button
+                          onClick={handleSignOut}
+                          className="flex items-center gap-3 w-full px-4 py-3 font-inter text-xs tracking-[0.08em] text-gray-500 hover:text-red-500 hover:bg-red-50/60 transition-colors group"
+                        >
+                          <LogOut className="h-3.5 w-3.5 group-hover:text-red-400 transition-colors" />
+                          Sign Out
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -218,27 +231,27 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border animate-fade-in">
-            <div className="flex flex-col gap-2">
+          <div className="lg:hidden py-4 border-t border-gray-200 animate-fade-in bg-white">
+            <div className="flex flex-col gap-1">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 text-sm tracking-[0.15em] uppercase text-black hover:bg-muted rounded-md"
+                  className="px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-gray-800 hover:bg-gray-50 hover:text-[#C49B08] rounded-lg transition-colors"
                 >
                   {item.name}
                 </Link>
               ))}
               {/* Mobile auth links */}
-              <div className="border-t border-border mt-2 pt-2">
+              <div className="border-t border-gray-100 mt-2 pt-2">
                 {isSignedIn ? (
                   <>
                     {isAdmin && (
                       <Link
                         href="/admin"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="px-4 py-3 text-sm tracking-[0.15em] uppercase text-gold hover:bg-muted rounded-md block"
+                        className="px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-[#C49B08] hover:bg-[#C49B08]/6 rounded-lg block transition-colors"
                       >
                         Admin Dashboard
                       </Link>
@@ -246,13 +259,13 @@ export function Header() {
                     <Link
                       href="/profile"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="px-4 py-3 text-sm tracking-[0.15em] uppercase text-black hover:bg-muted rounded-md block"
+                      className="px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-gray-700 hover:bg-gray-50 rounded-lg block transition-colors"
                     >
                       My Account
                     </Link>
                     <button
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-3 text-sm tracking-[0.15em] uppercase text-black hover:bg-muted rounded-md"
+                      className="w-full text-left px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-gray-500 hover:bg-red-50/60 hover:text-red-500 rounded-lg transition-colors"
                     >
                       Sign Out
                     </button>
@@ -262,14 +275,14 @@ export function Header() {
                     <Link
                       href="/sign-in"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="px-4 py-3 text-sm tracking-[0.15em] uppercase text-black hover:bg-muted rounded-md block"
+                      className="px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-gray-700 hover:bg-gray-50 rounded-lg block transition-colors"
                     >
                       Sign In
                     </Link>
                     <Link
                       href="/sign-up"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="px-4 py-3 text-sm tracking-[0.15em] uppercase text-black hover:bg-muted rounded-md block"
+                      className="px-4 py-3 font-inter text-sm tracking-[0.15em] uppercase text-gray-700 hover:bg-gray-50 rounded-lg block transition-colors"
                     >
                       Create Account
                     </Link>
