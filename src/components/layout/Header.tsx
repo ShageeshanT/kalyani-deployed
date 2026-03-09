@@ -66,7 +66,10 @@ export function Header() {
           colors={["#a4a2a9", "#ffffff", "#a38e05"]}
           cursorSize={30}
           mouseForce={15}
-          autoDemo={false}
+          autoDemo={true}
+          autoSpeed={0.4}
+          autoIntensity={1.8}
+          autoResumeDelay={800}
         />
       </div>
 
