@@ -110,7 +110,7 @@ const AdminRepairRequests = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">Service Tickets</h2>
+        <h2 className="font-inter text-xl font-bold text-gray-900 tracking-tight">Service Tickets</h2>
         <span className="text-sm text-gray-500">
           {tickets?.length ?? 0} ticket{tickets?.length !== 1 ? "s" : ""}
         </span>
@@ -118,7 +118,7 @@ const AdminRepairRequests = () => {
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+          <Loader2 className="h-6 w-6 animate-spin text-[#C49B08]" />
         </div>
       ) : (
         <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -126,12 +126,12 @@ const AdminRepairRequests = () => {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Date</th>
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Customer</th>
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Phone</th>
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Item</th>
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Status</th>
-                  <th className="text-left px-4 py-3 text-gray-600 font-medium whitespace-nowrap">Actions</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Date</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Customer</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Phone</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Item</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Status</th>
+                  <th className="text-left px-4 py-3 text-gray-700 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody>

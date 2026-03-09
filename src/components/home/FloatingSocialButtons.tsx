@@ -55,7 +55,8 @@ export function FloatingSocialButtons() {
         }
       `}</style>
 
-      <div className="fixed right-5 top-[50%] -translate-y-1/2 z-40 flex flex-col items-center gap-3">
+      {/* Mobile: FAB at bottom-right. sm+: side-rail at vertical center */}
+      <div className="fixed z-40 flex flex-col items-center gap-3 bottom-6 right-4 sm:bottom-auto sm:right-5 sm:top-[50%] sm:-translate-y-1/2">
 
         {/* Social icons — slide & fade in */}
         <div className="flex flex-col items-center gap-3">

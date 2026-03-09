@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout/Layout";
 import { Input } from "@/components/ui/input";
@@ -75,11 +76,20 @@ function formatPrice(price: number): string {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function Collections() {
+function CollectionsContent() {
   const { addToCart } = useCart();
+  const searchParams = useSearchParams();
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  // Pre-fill filters from URL params (?category=rings  or  ?search=gold)
+  const urlCategory = searchParams.get("category") ?? "all";
+  const urlSearch   = searchParams.get("search")   ?? "";
+
+  const validCategory = (CATEGORIES as readonly string[]).includes(urlCategory)
+    ? urlCategory
+    : "all";
+
+  const [searchQuery, setSearchQuery] = useState(urlSearch);
+  const [selectedCategory, setSelectedCategory] = useState(validCategory);
   const [selectedMaterial, setSelectedMaterial] = useState("all");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000000]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -431,5 +441,17 @@ export default function Collections() {
         </div>
       </div>
     </Layout>
+  );
+}
+
+export default function Collections() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-pulse text-gray-400 font-inter tracking-widest text-sm uppercase">Loading…</div>
+      </div>
+    }>
+      <CollectionsContent />
+    </Suspense>
   );
 }

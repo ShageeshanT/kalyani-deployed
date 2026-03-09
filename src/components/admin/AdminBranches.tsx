@@ -73,10 +73,10 @@ const AdminBranches = () => {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-900">Branches</h2>
+        <h2 className="font-inter text-xl font-bold text-gray-900 tracking-tight">Branches</h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white text-sm gap-1.5">
+            <Button className="bg-[#C49B08] hover:bg-[#a8840a] text-white text-sm gap-1.5 font-semibold">
               <Plus size={16} />
               Add Branch
             </Button>
@@ -148,7 +148,7 @@ const AdminBranches = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white"
+                className="w-full bg-[#C49B08] hover:bg-[#a8840a] text-white font-semibold"
                 disabled={addBranch.isPending}
               >
                 {addBranch.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -162,7 +162,7 @@ const AdminBranches = () => {
       {/* Branch List */}
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+          <Loader2 className="h-6 w-6 animate-spin text-[#C49B08]" />
         </div>
       ) : (
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">

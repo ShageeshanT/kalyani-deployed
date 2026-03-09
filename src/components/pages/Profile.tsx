@@ -6,12 +6,11 @@ import { useRouter } from "next/navigation";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { User, Package, Heart, LogOut, Settings } from "lucide-react";
+import { User, Package, Heart, LogOut, Settings, Loader2 } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
@@ -95,201 +94,238 @@ export default function ProfilePage() {
     router.push("/");
   };
 
+  /* ─── Loading ─── */
   if (authLoading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse text-gray-400 font-inter">Loading...</div>
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <Loader2 className="h-6 w-6 animate-spin text-[#C49B08]" />
         </div>
       </Layout>
     );
   }
 
+  /* ─── User initial for avatar ─── */
+  const initials = (profile.full_name || user?.email || "U")
+    .charAt(0)
+    .toUpperCase();
+
+  /* ─── Page ─── */
   return (
     <Layout>
-      <div className="min-h-screen bg-white py-10 md:py-14 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      {/* Gold accent bar */}
+      <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#C49B08] to-transparent" />
+
+      <div className="min-h-screen bg-[#fafaf9] py-10 md:py-14 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+
+          {/* ─── Hero header ─── */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-4xl font-inter font-light tracking-wide text-gray-900 mb-2">
+            {/* Avatar */}
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border-2 border-[#C49B08]/60 bg-white mb-5 shadow-sm">
+              <span className="font-display text-2xl font-light text-[#C49B08]">
+                {initials}
+              </span>
+            </div>
+
+            <p className="font-inter text-[10px] tracking-[0.45em] uppercase text-[#C49B08] mb-2">
+              New Kalyani Jewellers
+            </p>
+            <h1 className="font-display text-3xl sm:text-4xl font-light tracking-[0.15em] text-gray-900">
               My Account
             </h1>
-            <p className="text-gray-500 font-inter font-light">
+            <div className="w-8 h-px bg-[#C49B08]/50 mx-auto mt-3 mb-1" />
+            <p className="font-inter text-xs text-gray-400 tracking-wide mt-2">
               {user?.email}
             </p>
           </div>
 
+          {/* ─── Tabs ─── */}
           <Tabs defaultValue="profile" className="w-full">
             <div className="overflow-x-auto mb-6">
-              <TabsList className="bg-white border border-gray-200 rounded-lg p-1 grid grid-cols-4 min-w-[360px] w-full max-w-xl">
+              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-4 min-w-[340px] w-full shadow-sm">
                 <TabsTrigger
                   value="profile"
-                  className="font-inter text-xs sm:text-sm text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md gap-1.5"
+                  className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
                 >
-                  <User className="h-4 w-4" />
+                  <User className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Profile</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="orders"
-                  className="font-inter text-xs sm:text-sm text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md gap-1.5"
+                  className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
                 >
-                  <Package className="h-4 w-4" />
+                  <Package className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Orders</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="wishlist"
-                  className="font-inter text-xs sm:text-sm text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md gap-1.5"
+                  className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
                 >
-                  <Heart className="h-4 w-4" />
+                  <Heart className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Wishlist</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
-                  className="font-inter text-xs sm:text-sm text-gray-600 data-[state=active]:bg-gray-900 data-[state=active]:text-white rounded-md gap-1.5"
+                  className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
                 >
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Settings</span>
                 </TabsTrigger>
               </TabsList>
             </div>
 
+            {/* ─── Profile tab ─── */}
             <TabsContent value="profile">
-              <div className="bg-white border border-gray-200 rounded-lg p-5 md:p-8">
-                <h2 className="text-lg font-inter font-light tracking-wide text-gray-900 mb-6">
-                  Personal Information
-                </h2>
+              <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
+                {/* Section heading */}
+                <div className="mb-7">
+                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">Your Details</p>
+                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">Personal Information</h2>
+                  <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
+                </div>
+
                 <form onSubmit={handleUpdateProfile} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="full_name" className="font-inter font-light text-gray-700">
+                    {/* Full Name */}
+                    <div className="space-y-1.5">
+                      <label className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-600 block">
                         Full Name
-                      </Label>
-                      <Input
-                        id="full_name"
+                      </label>
+                      <input
                         value={profile.full_name || ""}
-                        onChange={(e) =>
-                          setProfile((prev) => ({ ...prev, full_name: e.target.value }))
-                        }
-                        className="font-inter bg-white border-gray-300 text-gray-900 focus:border-[#C49B08]"
+                        onChange={(e) => setProfile((prev) => ({ ...prev, full_name: e.target.value }))}
                         placeholder="Your full name"
+                        className="w-full h-11 px-4 border border-gray-300 focus:border-[#C49B08] focus:outline-none font-inter text-sm text-gray-900 placeholder:text-gray-400 bg-white transition-colors rounded-md"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="font-inter font-light text-gray-700">
+                    {/* Phone */}
+                    <div className="space-y-1.5">
+                      <label className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-600 block">
                         Phone Number
-                      </Label>
-                      <Input
-                        id="phone"
+                      </label>
+                      <input
                         type="tel"
                         value={profile.phone || ""}
-                        onChange={(e) =>
-                          setProfile((prev) => ({ ...prev, phone: e.target.value }))
-                        }
-                        className="font-inter bg-white border-gray-300 text-gray-900 focus:border-[#C49B08]"
+                        onChange={(e) => setProfile((prev) => ({ ...prev, phone: e.target.value }))}
                         placeholder="Your phone number"
+                        className="w-full h-11 px-4 border border-gray-300 focus:border-[#C49B08] focus:outline-none font-inter text-sm text-gray-900 placeholder:text-gray-400 bg-white transition-colors rounded-md"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="address" className="font-inter font-light text-gray-700">
+                  {/* Address */}
+                  <div className="space-y-1.5">
+                    <label className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-600 block">
                       Address
-                    </Label>
-                    <Input
-                      id="address"
+                    </label>
+                    <input
                       value={profile.address || ""}
-                      onChange={(e) =>
-                        setProfile((prev) => ({ ...prev, address: e.target.value }))
-                      }
-                      className="font-inter bg-white border-gray-300 text-gray-900 focus:border-[#C49B08]"
+                      onChange={(e) => setProfile((prev) => ({ ...prev, address: e.target.value }))}
                       placeholder="Your street address"
+                      className="w-full h-11 px-4 border border-gray-300 focus:border-[#C49B08] focus:outline-none font-inter text-sm text-gray-900 placeholder:text-gray-400 bg-white transition-colors rounded-md"
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="city" className="font-inter font-light text-gray-700">
+                  {/* City */}
+                  <div className="space-y-1.5">
+                    <label className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-600 block">
                       City
-                    </Label>
-                    <Input
-                      id="city"
+                    </label>
+                    <input
                       value={profile.city || ""}
-                      onChange={(e) =>
-                        setProfile((prev) => ({ ...prev, city: e.target.value }))
-                      }
-                      className="font-inter bg-white border-gray-300 text-gray-900 focus:border-[#C49B08]"
+                      onChange={(e) => setProfile((prev) => ({ ...prev, city: e.target.value }))}
                       placeholder="Your city"
+                      className="w-full h-11 px-4 border border-gray-300 focus:border-[#C49B08] focus:outline-none font-inter text-sm text-gray-900 placeholder:text-gray-400 bg-white transition-colors rounded-md"
                     />
                   </div>
 
-                  <Button
+                  <button
                     type="submit"
                     disabled={loading}
-                    className="bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter tracking-wider h-11"
+                    className="h-11 px-8 bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors disabled:opacity-60 flex items-center gap-2"
                   >
+                    {loading && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                     {loading ? "Saving..." : "Save Changes"}
-                  </Button>
+                  </button>
                 </form>
               </div>
             </TabsContent>
 
+            {/* ─── Orders tab ─── */}
             <TabsContent value="orders">
-              <div className="bg-white border border-gray-200 rounded-lg p-5 md:p-8">
-                <h2 className="text-lg font-inter font-light tracking-wide text-gray-900 mb-6">
-                  Order History
-                </h2>
-                <div className="text-center py-12">
-                  <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 font-inter font-light">
-                    No orders yet
-                  </p>
+              <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
+                <div className="mb-7">
+                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">History</p>
+                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">Order History</h2>
+                  <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
+                </div>
+                <div className="text-center py-14">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#C49B08]/8 border border-[#C49B08]/20 mb-4">
+                    <Package className="h-6 w-6 text-[#C49B08]/60" />
+                  </div>
+                  <p className="font-inter text-sm text-gray-400 tracking-wide">No orders yet</p>
+                  <p className="font-inter text-xs text-gray-300 mt-1">Your purchases will appear here</p>
                 </div>
               </div>
             </TabsContent>
 
+            {/* ─── Wishlist tab ─── */}
             <TabsContent value="wishlist">
-              <div className="bg-white border border-gray-200 rounded-lg p-5 md:p-8">
-                <h2 className="text-lg font-inter font-light tracking-wide text-gray-900 mb-6">
-                  My Wishlist
-                </h2>
-                <div className="text-center py-12">
-                  <Heart className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 font-inter font-light mb-4">
-                    Your wishlist is empty
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="font-inter tracking-wider border-gray-300 text-gray-700"
+              <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
+                <div className="mb-7">
+                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">Saved Items</p>
+                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">My Wishlist</h2>
+                  <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
+                </div>
+                <div className="text-center py-14">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#C49B08]/8 border border-[#C49B08]/20 mb-4">
+                    <Heart className="h-6 w-6 text-[#C49B08]/60" />
+                  </div>
+                  <p className="font-inter text-sm text-gray-400 tracking-wide mb-5">Your wishlist is empty</p>
+                  <button
                     onClick={() => router.push("/collections")}
+                    className="h-10 px-7 border border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08] hover:text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors"
                   >
                     Browse Collections
-                  </Button>
+                  </button>
                 </div>
               </div>
             </TabsContent>
 
+            {/* ─── Settings tab ─── */}
             <TabsContent value="settings">
-              <div className="bg-white border border-gray-200 rounded-lg p-5 md:p-8">
-                <h2 className="text-lg font-inter font-light tracking-wide text-gray-900 mb-6">
-                  Account Settings
-                </h2>
+              <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
+                <div className="mb-7">
+                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">Preferences</p>
+                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">Account Settings</h2>
+                  <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
+                </div>
+
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between py-4 border-b border-gray-200">
+                  {/* Email row */}
+                  <div className="flex items-center justify-between py-4 border-b border-gray-100">
                     <div>
-                      <p className="font-inter text-gray-900">Email</p>
-                      <p className="text-sm text-gray-500 font-inter font-light">
-                        {user?.email}
-                      </p>
+                      <p className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-500 mb-0.5">Email Address</p>
+                      <p className="font-inter text-sm text-gray-900">{user?.email}</p>
                     </div>
+                    <span className="text-[10px] px-2.5 py-1 rounded-full bg-green-50 text-green-600 font-inter font-medium border border-green-200">
+                      Verified
+                    </span>
                   </div>
 
-                  <Button
-                    variant="destructive"
-                    onClick={handleSignOut}
-                    className="font-inter tracking-wider"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </Button>
+                  {/* Sign out */}
+                  <div className="pt-2">
+                    <p className="font-inter text-xs text-gray-400 mb-3">You will be signed out of your account.</p>
+                    <button
+                      onClick={handleSignOut}
+                      className="h-10 px-6 bg-gray-900 hover:bg-red-600 text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors flex items-center gap-2"
+                    >
+                      <LogOut className="h-3.5 w-3.5" />
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
               </div>
             </TabsContent>

@@ -88,7 +88,7 @@ export default function AdminTestimonials() {
     {
       key: "all",
       label: "All",
-      active: "bg-gray-900 text-white shadow-sm",
+      active: "bg-[#C49B08] text-white shadow-sm",
       inactive: "bg-white border border-gray-200 text-gray-600 hover:border-gray-300",
     },
     {
@@ -114,7 +114,7 @@ export default function AdminTestimonials() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+        <Loader2 className="h-6 w-6 animate-spin text-[#C49B08]" />
       </div>
     );
   }
@@ -124,7 +124,7 @@ export default function AdminTestimonials() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Testimonials</h2>
+          <h2 className="font-inter text-xl font-bold text-gray-900 tracking-tight">Testimonials</h2>
           <p className="text-sm text-gray-500 mt-0.5">
             Review and approve customer testimonials for the About page
           </p>

@@ -80,8 +80,18 @@ export function HeroSection() {
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Three-panel image layout */}
-          <div className="h-full w-full grid grid-cols-1 md:grid-cols-3 gap-0.5 md:gap-0">
+          {/* Mobile: single image only */}
+          <div className="block md:hidden h-full">
+            <img
+              src={s.images[0]}
+              alt={s.title}
+              className="h-full w-full object-cover"
+              style={{ objectPosition: "top" }}
+            />
+          </div>
+
+          {/* Desktop: three-panel image layout */}
+          <div className="hidden md:grid grid-cols-3 h-full gap-0">
             {s.images.map((image, imgIndex) => (
               <div key={imgIndex} className="relative h-full overflow-hidden">
                 <img
