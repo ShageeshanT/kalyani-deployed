@@ -3,60 +3,83 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from "lucide-react"
 
 const footerLinks = {
   shop: [
-    { name: "All Jewelry", href: "/collections" },
-    { name: "Rings", href: "/collections?category=rings" },
-    { name: "Necklaces", href: "/collections?category=necklaces" },
-    { name: "Earrings", href: "/collections?category=earrings" },
-    { name: "Bracelets", href: "/collections?category=bracelets" },
+    { name: "All Jewelry",  href: "/collections" },
+    { name: "Rings",        href: "/collections?category=rings" },
+    { name: "Necklaces",    href: "/collections?category=necklaces" },
+    { name: "Earrings",     href: "/collections?category=earrings" },
+    { name: "Bracelets",    href: "/collections?category=bracelets" },
   ],
   services: [
-    { name: "Custom Designs", href: "/custom" },
+    { name: "Custom Designs",  href: "/custom" },
     { name: "Repair Services", href: "/repair" },
   ],
   company: [
     { name: "About Us", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact",  href: "/contact" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="bg-gold text-white">
+    <footer className="bg-[#0f0e0b] text-white">
+      {/* Gold accent line at top */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#C49B08] to-transparent" />
+
       {/* Main Footer */}
       <div className="container mx-auto px-4 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+
           {/* Brand */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-display font-normal tracking-[0.2em] mb-4 text-white">
+            <h2 className="font-display font-normal tracking-[0.2em] text-xl mb-1 text-white">
               NEW KALYANI
-              <span className="ml-2">JEWELLERS</span>
             </h2>
-            <p className="text-white/80 leading-relaxed mb-6 max-w-sm font-inter tracking-wide">
+            <h2 className="font-display font-normal tracking-[0.2em] text-xl mb-5 text-[#C49B08]">
+              JEWELLERS
+            </h2>
+            <div className="w-8 h-px bg-[#C49B08]/50 mb-6" />
+            <p className="text-white/55 leading-relaxed mb-8 max-w-xs font-inter text-sm tracking-wide">
               Crafting timeless elegance with exquisite gold and diamond jewellery.
               Trusted by generations across Sri Lanka.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 transition-colors">
-                <Facebook className="h-5 w-5 text-white" />
+            {/* Social icons */}
+            <div className="flex gap-3">
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:border-[#C49B08] hover:text-[#C49B08] text-white/50 transition-all duration-300"
+              >
+                <Facebook className="h-4 w-4" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 transition-colors">
-                <Instagram className="h-5 w-5 text-white" />
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:border-[#C49B08] hover:text-[#C49B08] text-white/50 transition-all duration-300"
+              >
+                <Instagram className="h-4 w-4" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 transition-colors">
-                <Twitter className="h-5 w-5 text-white" />
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:border-[#C49B08] hover:text-[#C49B08] text-white/50 transition-all duration-300"
+              >
+                <Twitter className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Shop Links */}
+          {/* Shop */}
           <div>
-            <h3 className="text-sm font-inter font-semibold tracking-[0.2em] uppercase mb-6 text-white">
+            <h3 className="font-inter text-[11px] font-medium tracking-[0.3em] uppercase mb-6 text-[#C49B08]">
               Shop
             </h3>
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-white/75 hover:text-white transition-colors text-sm font-inter tracking-wide">
+                  <Link
+                    href={link.href}
+                    className="font-inter text-sm text-white/50 hover:text-white transition-colors tracking-wide"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -64,15 +87,34 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services Links */}
+          {/* Services */}
           <div>
-            <h3 className="text-sm font-inter font-semibold tracking-[0.2em] uppercase mb-6 text-white">
+            <h3 className="font-inter text-[11px] font-medium tracking-[0.3em] uppercase mb-6 text-[#C49B08]">
               Services
             </h3>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-white/75 hover:text-white transition-colors text-sm font-inter tracking-wide">
+                  <Link
+                    href={link.href}
+                    className="font-inter text-sm text-white/50 hover:text-white transition-colors tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h3 className="font-inter text-[11px] font-medium tracking-[0.3em] uppercase mb-4 mt-8 text-[#C49B08]">
+              Company
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="font-inter text-sm text-white/50 hover:text-white transition-colors tracking-wide"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -82,41 +124,51 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-inter font-semibold tracking-[0.2em] uppercase mb-6 text-white">
+            <h3 className="font-inter text-[11px] font-medium tracking-[0.3em] uppercase mb-6 text-[#C49B08]">
               Contact
             </h3>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-sm text-white/75 font-inter tracking-wide">
-                <MapPin className="h-5 w-5 text-white shrink-0 mt-0.5" />
-                <span>
-                  475/A Kaduwela Rd,
-                  <br />
+              <li className="flex items-start gap-3">
+                <MapPin className="h-4 w-4 text-[#C49B08] shrink-0 mt-0.5" />
+                <span className="font-inter text-sm text-white/55 leading-relaxed tracking-wide">
+                  475/A Kaduwela Rd,<br />
                   Sri Jayawardenepura Kotte
                 </span>
               </li>
-              <li className="flex items-center gap-3 text-sm text-white/75 font-inter tracking-wide">
-                <Phone className="h-5 w-5 text-white shrink-0" />
-                <span>0112 257 1482</span>
+              <li className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-[#C49B08] shrink-0" />
+                <a
+                  href="tel:01122571482"
+                  className="font-inter text-sm text-white/55 hover:text-white transition-colors tracking-wide"
+                >
+                  0112 257 1482
+                </a>
               </li>
-              <li className="flex items-center gap-3 text-sm text-white/75 font-inter tracking-wide">
-                <Mail className="h-5 w-5 text-white shrink-0" />
-                <span>kj.kalyanijewellers@gmail.com</span>
+              <li className="flex items-start gap-3">
+                <Mail className="h-4 w-4 text-[#C49B08] shrink-0 mt-0.5" />
+                <a
+                  href="mailto:kj.kalyanijewellers@gmail.com"
+                  className="font-inter text-sm text-white/55 hover:text-white transition-colors tracking-wide break-all"
+                >
+                  kj.kalyanijewellers@gmail.com
+                </a>
               </li>
             </ul>
           </div>
+
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/20">
-        <div className="container mx-auto px-4 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/60 font-inter tracking-wide">
+      {/* Bottom bar */}
+      <div className="border-t border-white/8">
+        <div className="container mx-auto px-4 lg:px-8 py-5 flex flex-col md:flex-row justify-between items-center gap-3">
+          <p className="font-inter text-xs text-white/30 tracking-wide">
             © 2025 New Kalyani Jewellers. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm text-white/60 font-inter tracking-wide">
-            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/shipping" className="hover:text-white transition-colors">Shipping</Link>
+          <div className="flex gap-6">
+            <Link href="/terms"    className="font-inter text-xs text-white/30 hover:text-[#C49B08] transition-colors tracking-wide">Terms</Link>
+            <Link href="/privacy"  className="font-inter text-xs text-white/30 hover:text-[#C49B08] transition-colors tracking-wide">Privacy</Link>
+            <Link href="/shipping" className="font-inter text-xs text-white/30 hover:text-[#C49B08] transition-colors tracking-wide">Shipping</Link>
           </div>
         </div>
       </div>
