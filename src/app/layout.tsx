@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   keywords:
     "jewellery, gold, gems, rings, necklaces, earrings, bracelets, Sri Lanka",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
