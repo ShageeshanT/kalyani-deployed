@@ -77,6 +77,7 @@ const AdminRepairRequests = () => {
     mutationFn: async ({ id, status }: { id: string; status: RepairStatus }) => {
       const { error } = await supabase
         .from("repair_requests")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .update({ status } as any)
         .eq("id", id);
       if (error) throw error;
@@ -85,7 +86,7 @@ const AdminRepairRequests = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-repair-requests"] });
       toast({ title: "Status updated successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -102,7 +103,7 @@ const AdminRepairRequests = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-repair-requests"] });
       toast({ title: "Ticket deleted successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -135,6 +136,7 @@ const AdminRepairRequests = () => {
                 </tr>
               </thead>
               <tbody>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {(tickets as any[])?.map((ticket) => (
                   <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
                     {/* Date */}

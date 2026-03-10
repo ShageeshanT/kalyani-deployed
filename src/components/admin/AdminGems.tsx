@@ -139,7 +139,7 @@ const AdminGems = () => {
       setImagePreview(null);
       setFormData(emptyForm);
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       setUploading(false);
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
@@ -155,7 +155,7 @@ const AdminGems = () => {
       queryClient.invalidateQueries({ queryKey: ["gems-public"] });
       toast({ title: "Gem deleted" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -354,6 +354,7 @@ const AdminGems = () => {
                 </tr>
               </thead>
               <tbody>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {gems?.map((gem: any) => (
                   <tr key={gem.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="px-4 py-3">
@@ -402,7 +403,7 @@ const AdminGems = () => {
                           <AlertDialogHeader>
                             <AlertDialogTitle className="text-gray-900">Delete Gem</AlertDialogTitle>
                             <AlertDialogDescription className="text-gray-600">
-                              Are you sure you want to delete "{gem.name}"? This cannot be undone.
+                              Are you sure you want to delete &quot;{gem.name}&quot;? This cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -423,7 +424,7 @@ const AdminGems = () => {
             </table>
             {(!gems || gems.length === 0) && (
               <div className="text-center py-12 text-gray-400 text-sm">
-                No gems yet. Click "Add Gem" to get started.
+                No gems yet. Click &quot;Add Gem&quot; to get started.
               </div>
             )}
           </div>

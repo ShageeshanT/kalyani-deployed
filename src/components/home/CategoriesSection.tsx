@@ -141,7 +141,7 @@ export function CategoriesSection() {
           <div className="w-10 h-px bg-[#C49B08]/50 mx-auto mb-5" />
           <p className="text-white/45 max-w-xl mx-auto font-inter text-sm tracking-wide px-4 leading-relaxed">
             Explore our exquisite collections, each piece meticulously crafted to
-            celebrate life's precious moments.
+            celebrate life&apos;s precious moments.
           </p>
         </div>
 

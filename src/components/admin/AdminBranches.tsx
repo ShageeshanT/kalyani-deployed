@@ -50,7 +50,7 @@ const AdminBranches = () => {
       setOpen(false);
       setFormData({ name: "", address: "", city: "", phone: "", email: "" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -64,7 +64,7 @@ const AdminBranches = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-branches"] });
       toast({ title: "Branch removed successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -179,7 +179,7 @@ const AdminBranches = () => {
                   <AlertDialogHeader>
                     <AlertDialogTitle className="text-gray-900">Remove Branch</AlertDialogTitle>
                     <AlertDialogDescription className="text-gray-600">
-                      Are you sure you want to remove "{branch.name}"? This action cannot be undone.
+                      Are you sure you want to remove &quot;{branch.name}&quot;? This action cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -218,7 +218,7 @@ const AdminBranches = () => {
           ))}
           {(!branches || branches.length === 0) && (
             <div className="col-span-full text-center py-12 text-gray-400 text-sm bg-white border border-gray-200 rounded-lg">
-              No branches yet. Click "Add Branch" to get started.
+              No branches yet. Click &quot;Add Branch&quot; to get started.
             </div>
           )}
         </div>

@@ -80,6 +80,7 @@ export default function Gems() {
         .order("is_featured", { ascending: false })
         .order("created_at", { ascending: false });
       if (error) throw error;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return data as any[];
     },
   });
@@ -300,6 +301,7 @@ export default function Gems() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {filteredGems.map((gem: any) => {
                     const image = gem.images?.[0] ?? null;
                     const accentColor = GEM_COLORS[gem.gem_type] ?? "#C49B08";

@@ -51,6 +51,7 @@ const AdminCustomRequests = () => {
     mutationFn: async ({ id, status }: { id: string; status: RequestStatus }) => {
       const { error } = await supabase
         .from("custom_requests")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .update({ status } as any)
         .eq("id", id);
       if (error) throw error;
@@ -59,7 +60,7 @@ const AdminCustomRequests = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-custom-requests"] });
       toast({ title: "Status updated successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -73,7 +74,7 @@ const AdminCustomRequests = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-custom-requests"] });
       toast({ title: "Request deleted successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -106,6 +107,7 @@ const AdminCustomRequests = () => {
                 </tr>
               </thead>
               <tbody>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {(requests as any[])?.map((request) => (
                   <tr key={request.id} className="border-b border-gray-100 hover:bg-gray-50">
                     {/* Date */}

@@ -132,7 +132,7 @@ const AdminProducts = () => {
         is_active: true,
       });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       setUploading(false);
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
@@ -147,7 +147,7 @@ const AdminProducts = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products"] });
       toast({ title: "Product deleted successfully" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     },
   });
@@ -371,7 +371,7 @@ const AdminProducts = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle className="text-gray-900">Delete Product</AlertDialogTitle>
                           <AlertDialogDescription className="text-gray-600">
-                            Are you sure you want to delete "{product.name}"? This cannot be undone.
+                            Are you sure you want to delete &quot;{product.name}&quot;? This cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -392,7 +392,7 @@ const AdminProducts = () => {
           </table>
           {(!products || products.length === 0) && (
             <div className="text-center py-12 text-gray-400 text-sm">
-              No products yet. Click "Add Product" to get started.
+              No products yet. Click &quot;Add Product&quot; to get started.
             </div>
           )}
         </div>

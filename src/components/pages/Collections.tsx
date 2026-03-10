@@ -105,6 +105,7 @@ function CollectionsContent() {
         .eq("is_active", true)
         .order("created_at", { ascending: false });
       if (error) throw error;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return data as any[];
     },
   });
@@ -150,6 +151,7 @@ function CollectionsContent() {
     setSearchQuery("");
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     addToCart({

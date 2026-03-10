@@ -134,6 +134,7 @@ export default function CustomDesign() {
       .join("\n");
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const insertData: Record<string, any> = {
         name: data.name,
         email: "N/A",
@@ -144,6 +145,7 @@ export default function CustomDesign() {
 
       const { error } = await supabase
         .from("custom_requests")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .insert(insertData as any);
 
       if (error) {
@@ -155,6 +157,7 @@ export default function CustomDesign() {
       setImages([]);
       setImagesPreviews([]);
       setSubmitted(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Submission error:", error);
       const msg =
@@ -211,7 +214,7 @@ export default function CustomDesign() {
             </h1>
             <div className="w-10 h-px bg-[#C49B08]/50 mx-auto mb-5" />
             <p className="font-inter text-gray-500 tracking-wide text-sm leading-relaxed">
-              Tell us about your dream jewelry piece and we'll bring it to life
+              Tell us about your dream jewelry piece and we&apos;ll bring it to life
             </p>
           </div>
 

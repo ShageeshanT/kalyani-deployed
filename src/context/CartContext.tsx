@@ -32,7 +32,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("kalyani-cart");
-      if (stored) setCartItems(JSON.parse(stored));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (stored) setCartItems(JSON.parse(stored) as CartItem[]);
     } catch {}
     setHydrated(true);
   }, []);

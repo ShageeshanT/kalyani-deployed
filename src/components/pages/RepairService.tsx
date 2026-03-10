@@ -70,6 +70,7 @@ export default function RepairService() {
         item_description: validated.itemDescription,
         issue_description: validated.repairDescription,
         status: "pending",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
 
       if (error) throw error;
@@ -90,7 +91,9 @@ export default function RepairService() {
         setErrors(fieldErrors);
       } else {
         const msg =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (error as any)?.message ||
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (error as any)?.error_description ||
           "Failed to submit request. Please try again.";
         console.error("Repair request error:", error);

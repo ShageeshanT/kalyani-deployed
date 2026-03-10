@@ -212,7 +212,7 @@ export default function ProductDetail({ id }: { id: string }) {
         <div className="min-h-screen bg-white flex flex-col items-center justify-center py-20 px-4">
           <h1 className="text-2xl font-inter font-light text-gray-900 mb-4">Product Not Found</h1>
           <p className="text-gray-500 font-inter mb-8">
-            The product you're looking for doesn't exist or has been removed.
+            The product you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
           <Link href="/collections">
             <Button className="bg-gray-900 hover:bg-gray-800 text-white font-inter tracking-wider">
