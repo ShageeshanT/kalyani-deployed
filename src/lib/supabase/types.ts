@@ -140,6 +140,63 @@ export type Database = {
         }
         Relationships: []
       }
+      gems: {
+        Row: {
+          carat_weight: number | null
+          clarity: string | null
+          color: string | null
+          created_at: string
+          cut: string | null
+          description: string | null
+          gem_type: string
+          id: string
+          images: string[] | null
+          is_available: boolean
+          is_featured: boolean
+          name: string
+          origin: string | null
+          price_lkr: number | null
+          treatment: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          carat_weight?: number | null
+          clarity?: string | null
+          color?: string | null
+          created_at?: string
+          cut?: string | null
+          description?: string | null
+          gem_type: string
+          id?: string
+          images?: string[] | null
+          is_available?: boolean
+          is_featured?: boolean
+          name: string
+          origin?: string | null
+          price_lkr?: number | null
+          treatment?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          carat_weight?: number | null
+          clarity?: string | null
+          color?: string | null
+          created_at?: string
+          cut?: string | null
+          description?: string | null
+          gem_type?: string
+          id?: string
+          images?: string[] | null
+          is_available?: boolean
+          is_featured?: boolean
+          name?: string
+          origin?: string | null
+          price_lkr?: number | null
+          treatment?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       gold_rates: {
         Row: {
           created_at: string
@@ -470,6 +527,39 @@ export type Database = {
           status?: Database["public"]["Enums"]["request_status"]
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          created_at: string
+          district: string | null
+          email: string | null
+          id: string
+          message: string
+          name: string
+          rating: number
+          status: "pending" | "approved" | "declined"
+        }
+        Insert: {
+          created_at?: string
+          district?: string | null
+          email?: string | null
+          id?: string
+          message: string
+          name: string
+          rating: number
+          status?: "pending" | "approved" | "declined"
+        }
+        Update: {
+          created_at?: string
+          district?: string | null
+          email?: string | null
+          id?: string
+          message?: string
+          name?: string
+          rating?: number
+          status?: "pending" | "approved" | "declined"
         }
         Relationships: []
       }
