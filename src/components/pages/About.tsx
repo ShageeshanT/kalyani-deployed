@@ -67,7 +67,7 @@ const craftSteps = [
     description:
       "Every piece is meticulously inspected, hallmarked, and presented in our signature packaging — ready to be cherished.",
     image:
-      "https://images.unsplash.com/photo-1601121141418-b49661b3b056?w=600&h=750&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&h=750&fit=crop&q=80",
   },
 ];
 
