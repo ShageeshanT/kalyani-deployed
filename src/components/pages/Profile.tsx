@@ -22,6 +22,8 @@ export default function ProfilePage() {
   const { user, loading: authLoading, signOut } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [pwForm, setPwForm] = useState({ newPassword: "", confirmPassword: "" });
+  const [pwLoading, setPwLoading] = useState(false);
   const [profile, setProfile] = useState<Profile>({
     full_name: "",
     phone: "",
@@ -90,6 +92,38 @@ export default function ProfilePage() {
   const handleSignOut = async () => {
     await signOut();
     router.push("/");
+  };
+
+  const handleSignOutAll = async () => {
+    try {
+      await supabase.auth.signOut({ scope: "global" });
+      router.push("/");
+    } catch {
+      toast({ title: "Error", description: "Failed to sign out of all devices.", variant: "destructive" });
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    if (!pwForm.newPassword || pwForm.newPassword.length < 6) {
+      toast({ title: "Password must be at least 6 characters", variant: "destructive" });
+      return;
+    }
+    if (pwForm.newPassword !== pwForm.confirmPassword) {
+      toast({ title: "Passwords do not match", variant: "destructive" });
+      return;
+    }
+    setPwLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password: pwForm.newPassword });
+      if (error) throw error;
+      toast({ title: "Password updated successfully" });
+      setPwForm({ newPassword: "", confirmPassword: "" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to update password";
+      toast({ title: "Error", description: msg, variant: "destructive" });
+    } finally {
+      setPwLoading(false);
+    }
   };
 
   /* ─── Loading ─── */
@@ -313,16 +347,60 @@ export default function ProfilePage() {
                     </span>
                   </div>
 
+                  {/* Change password */}
+                  <div className="py-4 border-b border-gray-100">
+                    <p className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-500 mb-4">Change Password</p>
+                    <div className="space-y-3 max-w-sm">
+                      <div>
+                        <label className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-500 mb-1.5 block">New Password</label>
+                        <input
+                          type="password"
+                          value={pwForm.newPassword}
+                          onChange={e => setPwForm(p => ({ ...p, newPassword: e.target.value }))}
+                          placeholder="Min. 6 characters"
+                          className="w-full h-10 px-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-500 mb-1.5 block">Confirm Password</label>
+                        <input
+                          type="password"
+                          value={pwForm.confirmPassword}
+                          onChange={e => setPwForm(p => ({ ...p, confirmPassword: e.target.value }))}
+                          placeholder="Repeat new password"
+                          className="w-full h-10 px-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
+                        />
+                      </div>
+                      <button
+                        onClick={handlePasswordChange}
+                        disabled={pwLoading}
+                        className="h-10 px-6 bg-[#C49B08] hover:bg-[#a8840a] disabled:opacity-60 text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors flex items-center gap-2"
+                      >
+                        {pwLoading && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                        Update Password
+                      </button>
+                    </div>
+                  </div>
+
                   {/* Sign out */}
                   <div className="pt-2">
-                    <p className="font-inter text-xs text-gray-400 mb-3">You will be signed out of your account.</p>
-                    <button
-                      onClick={handleSignOut}
-                      className="h-10 px-6 bg-gray-900 hover:bg-red-600 text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors flex items-center gap-2"
-                    >
-                      <LogOut className="h-3.5 w-3.5" />
-                      Sign Out
-                    </button>
+                    <p className="font-inter text-xs text-gray-400 mb-3">Manage your active sessions.</p>
+                    <div className="flex flex-wrap gap-3">
+                      <button
+                        onClick={handleSignOut}
+                        className="h-10 px-6 bg-gray-900 hover:bg-red-600 text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors flex items-center gap-2"
+                      >
+                        <LogOut className="h-3.5 w-3.5" />
+                        Sign Out
+                      </button>
+                      <button
+                        onClick={handleSignOutAll}
+                        className="h-10 px-6 border border-gray-300 hover:border-red-500 hover:text-red-600 text-gray-600 font-inter text-[11px] tracking-[0.3em] uppercase transition-colors flex items-center gap-2"
+                      >
+                        <LogOut className="h-3.5 w-3.5" />
+                        Sign Out All Devices
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
