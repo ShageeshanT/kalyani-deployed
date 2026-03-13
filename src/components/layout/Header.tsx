@@ -121,7 +121,7 @@ export function Header() {
               height={56}
               className="h-10 sm:h-12 md:h-14 w-auto"
             />
-            <h1 className="hidden sm:block text-sm md:text-lg lg:text-xl font-display font-normal tracking-[0.1em] md:tracking-[0.15em] text-black whitespace-nowrap">
+            <h1 className="block text-[10px] sm:text-sm md:text-lg lg:text-xl font-display font-normal tracking-[0.06em] sm:tracking-[0.1em] md:tracking-[0.15em] text-black whitespace-nowrap">
               NEW KALYANI JEWELLERS
             </h1>
           </Link>
