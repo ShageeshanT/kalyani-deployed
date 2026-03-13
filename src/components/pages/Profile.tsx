@@ -8,13 +8,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { User, Package, LogOut, Settings, Loader2, Eye, EyeOff } from "lucide-react";
+import { User, Activity, LogOut, Settings, Loader2, Eye, EyeOff, Palette, Clock, CheckCircle2, XCircle, AlertCircle, CircleDot } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
   phone: string | null;
   address: string | null;
   city: string | null;
+}
+
+interface CustomRequest {
+  id: string;
+  name: string;
+  phone: string;
+  description: string;
+  status: string;
+  created_at: string;
 }
 
 export default function ProfilePage() {
@@ -25,6 +34,8 @@ export default function ProfilePage() {
   const [pwForm, setPwForm] = useState({ newPassword: "", confirmPassword: "" });
   const [pwLoading, setPwLoading] = useState(false);
   const [showPw, setShowPw] = useState({ newPassword: false, confirmPassword: false });
+  const [customRequests, setCustomRequests] = useState<CustomRequest[]>([]);
+  const [requestsLoading, setRequestsLoading] = useState(false);
   const [profile, setProfile] = useState<Profile>({
     full_name: "",
     phone: "",
@@ -54,6 +65,24 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
+    }
+  };
+
+  const fetchCustomRequests = async () => {
+    setRequestsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("custom_requests")
+        .select("id, name, phone, description, status, created_at")
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setCustomRequests(data as CustomRequest[]);
+    } catch {
+      // Column may not exist yet — silently show empty state
+      setCustomRequests([]);
+    } finally {
+      setRequestsLoading(false);
     }
   };
 
@@ -175,11 +204,12 @@ export default function ProfilePage() {
                   <span className="hidden sm:inline">Profile</span>
                 </TabsTrigger>
                 <TabsTrigger
-                  value="orders"
+                  value="activity"
+                  onClick={fetchCustomRequests}
                   className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
                 >
-                  <Package className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Orders</span>
+                  <Activity className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Activity</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
@@ -269,21 +299,104 @@ export default function ProfilePage() {
               </div>
             </TabsContent>
 
-            {/* ─── Orders tab ─── */}
-            <TabsContent value="orders">
+            {/* ─── Activity tab ─── */}
+            <TabsContent value="activity">
               <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
                 <div className="mb-7">
-                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">History</p>
-                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">Order History</h2>
+                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">Your Requests</p>
+                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">Custom Design Activity</h2>
                   <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
                 </div>
-                <div className="text-center py-14">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#C49B08]/8 border border-[#C49B08]/20 mb-4">
-                    <Package className="h-6 w-6 text-[#C49B08]/60" />
+
+                {requestsLoading ? (
+                  <div className="flex items-center justify-center py-14">
+                    <Loader2 className="h-5 w-5 animate-spin text-[#C49B08]" />
                   </div>
-                  <p className="font-inter text-sm text-gray-400 tracking-wide">No orders yet</p>
-                  <p className="font-inter text-xs text-gray-300 mt-1">Your purchases will appear here</p>
-                </div>
+                ) : customRequests.length === 0 ? (
+                  <div className="text-center py-14">
+                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#C49B08]/8 border border-[#C49B08]/20 mb-4">
+                      <Palette className="h-6 w-6 text-[#C49B08]/60" />
+                    </div>
+                    <p className="font-inter text-sm text-gray-400 tracking-wide">No design requests yet</p>
+                    <p className="font-inter text-xs text-gray-300 mt-1 mb-6">Submit a custom design request to see it tracked here</p>
+                    <button
+                      onClick={() => router.push("/custom-design")}
+                      className="h-10 px-7 border border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08] hover:text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors"
+                    >
+                      Start a Request
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {customRequests.map((req) => {
+                      const statusConfig: Record<string, { icon: React.ReactNode; label: string; color: string; bg: string }> = {
+                        pending:     { icon: <Clock className="h-3.5 w-3.5" />,        label: "Pending",     color: "text-amber-600",  bg: "bg-amber-50 border-amber-200" },
+                        in_review:   { icon: <AlertCircle className="h-3.5 w-3.5" />,  label: "In Review",   color: "text-blue-600",   bg: "bg-blue-50 border-blue-200" },
+                        quoted:      { icon: <CircleDot className="h-3.5 w-3.5" />,    label: "Quoted",      color: "text-purple-600", bg: "bg-purple-50 border-purple-200" },
+                        accepted:    { icon: <CheckCircle2 className="h-3.5 w-3.5" />, label: "Accepted",    color: "text-teal-600",   bg: "bg-teal-50 border-teal-200" },
+                        in_progress: { icon: <Activity className="h-3.5 w-3.5" />,     label: "In Progress", color: "text-orange-600", bg: "bg-orange-50 border-orange-200" },
+                        completed:   { icon: <CheckCircle2 className="h-3.5 w-3.5" />, label: "Completed",   color: "text-green-600",  bg: "bg-green-50 border-green-200" },
+                        cancelled:   { icon: <XCircle className="h-3.5 w-3.5" />,      label: "Cancelled",   color: "text-red-500",    bg: "bg-red-50 border-red-200" },
+                      };
+                      const s = statusConfig[req.status] ?? statusConfig["pending"];
+
+                      // Extract category/material from description first two lines
+                      const lines = req.description.split("\n");
+                      const meta = lines.filter(l => l.startsWith("Category:") || l.startsWith("Material:"));
+                      const detail = lines.find(l => !l.startsWith("Category:") && !l.startsWith("Material:") && l.trim()) || "";
+
+                      return (
+                        <div key={req.id} className="border border-gray-200 rounded-xl p-4 hover:border-[#C49B08]/30 transition-colors">
+                          {/* Top row */}
+                          <div className="flex items-start justify-between gap-3 mb-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-400">
+                                {new Date(req.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                              </p>
+                              <div className="flex flex-wrap gap-2 mt-1">
+                                {meta.map((m, i) => (
+                                  <span key={i} className="font-inter text-[10px] tracking-wide text-[#C49B08] bg-[#C49B08]/8 px-2 py-0.5 rounded-full border border-[#C49B08]/20">
+                                    {m}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <span className={`inline-flex items-center gap-1.5 font-inter text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 rounded-full border flex-shrink-0 ${s.bg} ${s.color}`}>
+                              {s.icon}
+                              {s.label}
+                            </span>
+                          </div>
+
+                          {/* Description preview */}
+                          {detail && (
+                            <p className="font-inter text-xs text-gray-500 leading-relaxed line-clamp-2 mt-2">
+                              {detail}
+                            </p>
+                          )}
+
+                          {/* Footer */}
+                          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
+                            <p className="font-inter text-[10px] text-gray-400">
+                              Ref: <span className="font-medium text-gray-600">#{req.id.slice(0, 8).toUpperCase()}</span>
+                            </p>
+                            <p className="font-inter text-[10px] text-gray-400">
+                              {req.phone}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    <div className="pt-2">
+                      <button
+                        onClick={() => router.push("/custom-design")}
+                        className="font-inter text-[11px] tracking-[0.2em] uppercase text-gray-400 hover:text-[#C49B08] transition-colors"
+                      >
+                        + Submit Another Request
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </TabsContent>
 

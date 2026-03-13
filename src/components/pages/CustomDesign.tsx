@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { supabase } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, Loader2 } from "lucide-react";
 
@@ -76,6 +77,7 @@ export default function CustomDesign() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -141,6 +143,7 @@ export default function CustomDesign() {
         phone: `${data.phone} | WhatsApp: ${data.whatsapp}`,
         description: fullDescription,
         status: "pending",
+        ...(user?.id ? { user_id: user.id } : {}),
       };
 
       const { error } = await supabase
