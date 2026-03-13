@@ -154,16 +154,6 @@ export default function ProfilePage() {
 
           {/* ─── Hero header ─── */}
           <div className="text-center mb-10">
-            {/* Avatar */}
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border-2 border-[#C49B08]/60 bg-white mb-5 shadow-sm">
-              <span className="font-display text-2xl font-light text-[#C49B08]">
-                {initials}
-              </span>
-            </div>
-
-            <p className="font-inter text-[10px] tracking-[0.45em] uppercase text-[#C49B08] mb-2">
-              New Kalyani Jewellers
-            </p>
             <h1 className="font-display text-3xl sm:text-4xl font-light tracking-[0.15em] text-gray-900">
               My Account
             </h1>

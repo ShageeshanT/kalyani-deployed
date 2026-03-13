@@ -64,9 +64,6 @@ function SearchContent() {
 
           {/* Header */}
           <div className="text-center mb-10">
-            <p className="font-inter text-[11px] tracking-[0.45em] text-[#C49B08] uppercase mb-4">
-              New Kalyani Jewellers
-            </p>
             <h1 className="font-inter text-3xl md:text-4xl font-light tracking-[0.25em] text-gray-900 mb-4">
               SEARCH
             </h1>

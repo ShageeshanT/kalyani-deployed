@@ -25,9 +25,6 @@ export default function Cart() {
 
           {/* ── Page header ── */}
           <div className="text-center mb-10">
-            <p className="font-inter text-[10px] tracking-[0.45em] uppercase text-[#C49B08] mb-2">
-              New Kalyani Jewellers
-            </p>
             <h1 className="font-display text-3xl sm:text-4xl font-light tracking-[0.15em] text-gray-900">
               My Bag
             </h1>

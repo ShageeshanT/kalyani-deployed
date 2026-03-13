@@ -121,9 +121,6 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10 md:mb-12">
-            <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
-              New Kalyani Jewellers
-            </p>
             <h1 className="font-inter text-3xl md:text-4xl font-light tracking-[0.2em] text-gray-900 mb-4">
               CONTACT US
             </h1>
