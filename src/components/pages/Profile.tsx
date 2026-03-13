@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { User, Package, Heart, LogOut, Settings, Loader2 } from "lucide-react";
+import { User, Package, Heart, LogOut, Settings, Loader2, Eye, EyeOff } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [pwForm, setPwForm] = useState({ newPassword: "", confirmPassword: "" });
   const [pwLoading, setPwLoading] = useState(false);
+  const [showPw, setShowPw] = useState({ newPassword: false, confirmPassword: false });
   const [profile, setProfile] = useState<Profile>({
     full_name: "",
     phone: "",
@@ -353,23 +354,43 @@ export default function ProfilePage() {
                     <div className="space-y-3 max-w-sm">
                       <div>
                         <label className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-500 mb-1.5 block">New Password</label>
-                        <input
-                          type="password"
-                          value={pwForm.newPassword}
-                          onChange={e => setPwForm(p => ({ ...p, newPassword: e.target.value }))}
-                          placeholder="Min. 6 characters"
-                          className="w-full h-10 px-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
-                        />
+                        <div className="relative">
+                          <input
+                            type={showPw.newPassword ? "text" : "password"}
+                            value={pwForm.newPassword}
+                            onChange={e => setPwForm(p => ({ ...p, newPassword: e.target.value }))}
+                            placeholder="Min. 6 characters"
+                            className="w-full h-10 px-3 pr-10 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPw(s => ({ ...s, newPassword: !s.newPassword }))}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#C49B08] transition-colors"
+                            tabIndex={-1}
+                          >
+                            {showPw.newPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </button>
+                        </div>
                       </div>
                       <div>
                         <label className="font-inter text-[10px] tracking-[0.2em] uppercase text-gray-500 mb-1.5 block">Confirm Password</label>
-                        <input
-                          type="password"
-                          value={pwForm.confirmPassword}
-                          onChange={e => setPwForm(p => ({ ...p, confirmPassword: e.target.value }))}
-                          placeholder="Repeat new password"
-                          className="w-full h-10 px-3 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
-                        />
+                        <div className="relative">
+                          <input
+                            type={showPw.confirmPassword ? "text" : "password"}
+                            value={pwForm.confirmPassword}
+                            onChange={e => setPwForm(p => ({ ...p, confirmPassword: e.target.value }))}
+                            placeholder="Repeat new password"
+                            className="w-full h-10 px-3 pr-10 border border-gray-200 rounded-lg font-inter text-sm text-gray-900 placeholder-gray-400 focus:border-[#C49B08] focus:outline-none transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPw(s => ({ ...s, confirmPassword: !s.confirmPassword }))}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#C49B08] transition-colors"
+                            tabIndex={-1}
+                          >
+                            {showPw.confirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </button>
+                        </div>
                       </div>
                       <button
                         onClick={handlePasswordChange}
