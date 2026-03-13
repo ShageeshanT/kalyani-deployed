@@ -6,6 +6,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 
 // Mock products for fallback
@@ -93,10 +94,13 @@ interface Product {
 export default function ProductDetail({ id }: { id: string }) {
   // id is passed as a prop from the page route
   const { toast } = useToast();
+  const { user } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [wishlistRowId, setWishlistRowId] = useState<string | null>(null);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -136,6 +140,31 @@ export default function ProductDetail({ id }: { id: string }) {
     fetchProduct();
   }, [id]);
 
+  // Check wishlist status whenever product or user changes
+  useEffect(() => {
+    if (!user || !product) {
+      setIsWishlisted(false);
+      setWishlistRowId(null);
+      return;
+    }
+    const checkWishlist = async () => {
+      const { data } = await supabase
+        .from("wishlists")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("product_id", product.id)
+        .maybeSingle();
+      if (data) {
+        setIsWishlisted(true);
+        setWishlistRowId(data.id);
+      } else {
+        setIsWishlisted(false);
+        setWishlistRowId(null);
+      }
+    };
+    checkWishlist();
+  }, [user, product]);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-LK", {
       style: "decimal",
@@ -148,14 +177,46 @@ export default function ProductDetail({ id }: { id: string }) {
     return material.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
-  const handleAddToWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    toast({
-      title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
-      description: isWishlisted 
-        ? `${product?.name} removed from your wishlist` 
-        : `${product?.name} added to your wishlist`,
-    });
+  const handleAddToWishlist = async () => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to save items to your wishlist.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!product) return;
+    setWishlistLoading(true);
+
+    try {
+      if (isWishlisted && wishlistRowId) {
+        // Remove from wishlist
+        const { error } = await supabase
+          .from("wishlists")
+          .delete()
+          .eq("id", wishlistRowId);
+        if (error) throw error;
+        setIsWishlisted(false);
+        setWishlistRowId(null);
+        toast({ title: "Removed from wishlist", description: `${product.name} removed.` });
+      } else {
+        // Add to wishlist
+        const { data, error } = await supabase
+          .from("wishlists")
+          .insert({ user_id: user.id, product_id: product.id })
+          .select("id")
+          .single();
+        if (error) throw error;
+        setIsWishlisted(true);
+        setWishlistRowId(data.id);
+        toast({ title: "Added to wishlist", description: `${product.name} saved.` });
+      }
+    } catch {
+      toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
+    } finally {
+      setWishlistLoading(false);
+    }
   };
 
   const nextImage = () => {
@@ -323,15 +384,16 @@ export default function ProductDetail({ id }: { id: string }) {
               <div>
                 <Button
                   onClick={handleAddToWishlist}
+                  disabled={wishlistLoading}
                   variant="outline"
-                  className={`w-full h-12 font-inter tracking-[0.15em] uppercase transition-all ${
+                  className={`w-full h-12 font-inter tracking-[0.15em] uppercase transition-all disabled:opacity-60 ${
                     isWishlisted
                       ? "bg-[#C49B08] text-white border-[#C49B08] hover:bg-[#C49B08]/90"
                       : "border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08]/10"
                   }`}
                 >
                   <Heart className={`h-5 w-5 mr-2 ${isWishlisted ? "fill-current" : ""}`} />
-                  {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
+                  {wishlistLoading ? "Saving..." : isWishlisted ? "Wishlisted" : "Add to Wishlist"}
                 </Button>
               </div>
 
