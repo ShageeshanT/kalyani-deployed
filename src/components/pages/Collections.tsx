@@ -11,14 +11,12 @@ import {
   Search,
   Grid3X3,
   List,
-  ShoppingCart,
   Gem,
   Loader2,
   SlidersHorizontal,
   X,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
-import { useCart } from "@/context/CartContext";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -77,7 +75,6 @@ function formatPrice(price: number): string {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 function CollectionsContent() {
-  const { addToCart } = useCart();
   const searchParams = useSearchParams();
 
   // Pre-fill filters from URL params (?category=rings  or  ?search=gold)
@@ -149,19 +146,6 @@ function CollectionsContent() {
     setSelectedMaterial("all");
     setPriceRange([0, maxPrice]);
     setSearchQuery("");
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleAddToCart = (e: React.MouseEvent, product: any) => {
-    e.preventDefault();
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price_lkr) || 0,
-      image: product.images?.[0] ?? "",
-      category: product.category ?? "",
-      slug: product.slug ?? product.id,
-    });
   };
 
   const filterPanel = (
@@ -389,21 +373,6 @@ function CollectionsContent() {
                             </div>
                           )}
 
-                          {viewMode === "grid" && !isOutOfStock && (
-                            <div
-                              className={`absolute inset-x-0 bottom-0 flex justify-center pb-3 transition-all duration-300 ${
-                                hoveredProduct === product.id ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                              }`}
-                            >
-                              <button
-                                onClick={(e) => handleAddToCart(e, product)}
-                                className="bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter text-xs tracking-wider px-4 py-2 rounded-lg flex items-center gap-2 shadow-md transition-colors"
-                              >
-                                <ShoppingCart className="h-3 w-3" />
-                                Add to Cart
-                              </button>
-                            </div>
-                          )}
                         </div>
 
                         <div className={`p-4 ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : ""}`}>
@@ -422,15 +391,6 @@ function CollectionsContent() {
                             <span className="font-inter text-sm font-semibold text-gray-900">
                               LKR {formatPrice(Number(product.price_lkr) || 0)}
                             </span>
-                            {viewMode === "list" && !isOutOfStock && (
-                              <button
-                                onClick={(e) => handleAddToCart(e, product)}
-                                className="bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter text-xs tracking-wider px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-                              >
-                                <ShoppingCart className="h-3 w-3" />
-                                Add to Cart
-                              </button>
-                            )}
                           </div>
                         </div>
                       </div>

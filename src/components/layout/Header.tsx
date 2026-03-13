@@ -4,12 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Menu, X, Search, ShoppingBag, User, LogOut, Settings } from "lucide-react";
+import { Menu, X, Search, User, LogOut, Settings, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LiquidEther from "@/components/effects/LiquidEther";
 import { useAuth } from "@/hooks/useAuth";
-import { useCart } from "@/context/CartContext";
 
 const navigation = [
   { name: "New In", href: "/new" },
@@ -24,7 +23,6 @@ export function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { isAdmin, isSignedIn, user, signOut } = useAuth();
-  const { cartCount } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -206,6 +204,16 @@ export function Header() {
               </Link>
             )}
 
+            <Link href="/wishlist">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-transparent h-8 w-8 md:h-9 md:w-9 text-black transition-colors duration-300 hover:text-gold"
+              >
+                <Heart className="h-[18px] w-[18px] md:h-5 md:w-5" />
+              </Button>
+            </Link>
+
             <Link href="/search">
               <Button
                 variant="ghost"
@@ -214,20 +222,6 @@ export function Header() {
               >
                 <Search className="h-[18px] w-[18px] md:h-5 md:w-5" />
               </Button>
-            </Link>
-            <Link href="/cart" className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-transparent h-8 w-8 md:h-9 md:w-9 text-black transition-colors duration-300 hover:text-gold"
-              >
-                <ShoppingBag className="h-[18px] w-[18px] md:h-5 md:w-5" />
-              </Button>
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[#C49B08] text-white text-[10px] font-medium flex items-center justify-center leading-none">
-                  {cartCount > 9 ? "9+" : cartCount}
-                </span>
-              )}
             </Link>
           </div>
         </div>

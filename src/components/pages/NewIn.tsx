@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Layout } from "@/components/layout/Layout";
-import { ShoppingCart, Package } from "lucide-react";
+import { Package } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { useCart } from "@/context/CartContext";
 
 interface Product {
   id: string;
@@ -38,8 +37,6 @@ export default function NewIn() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const { addToCart } = useCart();
-
   useEffect(() => {
     const supabase = createClient();
     supabase
@@ -54,17 +51,6 @@ export default function NewIn() {
       });
   }, []);
 
-  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
-    e.preventDefault();
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price_lkr,
-      image: product.images?.[0] ?? "",
-      category: product.category ?? "",
-      slug: product.slug,
-    });
-  };
 
   return (
     <Layout>
@@ -138,20 +124,6 @@ export default function NewIn() {
                       </div>
                     )}
 
-                    {/* Add to cart on hover */}
-                    <div
-                      className={`absolute inset-x-0 bottom-0 flex justify-center pb-3 transition-all duration-300 ${
-                        hoveredId === product.id ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                      }`}
-                    >
-                      <button
-                        onClick={(e) => handleAddToCart(e, product)}
-                        className="bg-[#C49B08] hover:bg-[#a8840a] text-white font-inter text-xs tracking-wider px-4 py-2 rounded-lg flex items-center gap-2 shadow-md transition-colors"
-                      >
-                        <ShoppingCart className="h-3 w-3" />
-                        Add to Cart
-                      </button>
-                    </div>
                   </div>
 
                   {/* Info */}

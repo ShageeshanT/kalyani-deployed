@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 import Link from 'next/link';
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingBag, Minus, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useCart } from "@/context/CartContext";
 
 // Mock products for fallback
 const necklace1 = "/products/necklace-1.jpg";
@@ -94,10 +93,8 @@ interface Product {
 export default function ProductDetail({ id }: { id: string }) {
   // id is passed as a prop from the page route
   const { toast } = useToast();
-  const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
@@ -149,29 +146,6 @@ export default function ProductDetail({ id }: { id: string }) {
 
   const formatMaterial = (material: string) => {
     return material.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-  };
-
-  const handleAddToCart = () => {
-    if (!product) return;
-    const firstImage =
-      product.images && product.images.length > 0
-        ? product.images[0]
-        : "/placeholder.svg";
-    addToCart(
-      {
-        id: product.id,
-        name: product.name,
-        price: product.price_lkr,
-        image: firstImage,
-        category: product.category,
-        slug: product.slug ?? product.id,
-      },
-      quantity
-    );
-    toast({
-      title: "Added to Cart",
-      description: `${quantity}x ${product.name} added to your cart`,
-    });
   };
 
   const handleAddToWishlist = () => {
@@ -345,45 +319,19 @@ export default function ProductDetail({ id }: { id: string }) {
                 </div>
               </div>
 
-              {/* Quantity */}
-              <div className="flex items-center gap-4">
-                <span className="font-inter text-sm text-gray-900">Quantity:</span>
-                <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-3 hover:bg-gray-100 transition-colors text-gray-900"
-                  >
-                    <Minus className="h-4 w-4" />
-                  </button>
-                  <span className="w-12 text-center font-inter text-gray-900">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="p-3 hover:bg-gray-100 transition-colors text-gray-900"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-
               {/* Actions */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  onClick={handleAddToCart}
-                  className="flex-1 h-12 bg-gray-900 hover:bg-gray-800 text-white font-inter tracking-[0.15em] uppercase"
-                >
-                  <ShoppingBag className="h-5 w-5 mr-2" />
-                  Add to Cart
-                </Button>
+              <div>
                 <Button
                   onClick={handleAddToWishlist}
                   variant="outline"
-                  className={`h-12 px-6 font-inter tracking-wider transition-all ${
+                  className={`w-full h-12 font-inter tracking-[0.15em] uppercase transition-all ${
                     isWishlisted
                       ? "bg-[#C49B08] text-white border-[#C49B08] hover:bg-[#C49B08]/90"
                       : "border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08]/10"
                   }`}
                 >
-                  <Heart className={`h-5 w-5 ${isWishlisted ? "fill-current" : ""}`} />
+                  <Heart className={`h-5 w-5 mr-2 ${isWishlisted ? "fill-current" : ""}`} />
+                  {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
                 </Button>
               </div>
 

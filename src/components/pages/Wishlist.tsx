@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Heart, Trash2, ShoppingBag } from "lucide-react";
+import { Heart, Trash2 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -189,13 +189,6 @@ export default function Wishlist() {
                     <p className="text-[#C49B08] font-inter font-semibold text-xs md:text-sm mb-3">
                       {formatPrice(item.products?.price_lkr || 0)}
                     </p>
-                    <Button
-                      className="w-full bg-gray-900 hover:bg-gray-800 text-white font-inter text-xs tracking-wider"
-                      size="sm"
-                    >
-                      <ShoppingBag className="h-3.5 w-3.5 mr-2" />
-                      Add to Cart
-                    </Button>
                   </div>
                 </div>
               ))}

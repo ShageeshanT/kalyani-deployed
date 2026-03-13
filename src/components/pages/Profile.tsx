@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { User, Package, Heart, LogOut, Settings, Loader2, Eye, EyeOff } from "lucide-react";
+import { User, Package, LogOut, Settings, Loader2, Eye, EyeOff } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
@@ -166,7 +166,7 @@ export default function ProfilePage() {
           {/* ─── Tabs ─── */}
           <Tabs defaultValue="profile" className="w-full">
             <div className="overflow-x-auto mb-6">
-              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-4 min-w-[340px] w-full shadow-sm">
+              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-3 min-w-[260px] w-full shadow-sm">
                 <TabsTrigger
                   value="profile"
                   className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
@@ -180,13 +180,6 @@ export default function ProfilePage() {
                 >
                   <Package className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Orders</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="wishlist"
-                  className="font-inter font-medium text-xs sm:text-sm text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg gap-1.5 transition-all"
-                >
-                  <Heart className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Wishlist</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
@@ -290,29 +283,6 @@ export default function ProfilePage() {
                   </div>
                   <p className="font-inter text-sm text-gray-400 tracking-wide">No orders yet</p>
                   <p className="font-inter text-xs text-gray-300 mt-1">Your purchases will appear here</p>
-                </div>
-              </div>
-            </TabsContent>
-
-            {/* ─── Wishlist tab ─── */}
-            <TabsContent value="wishlist">
-              <div className="bg-white border border-gray-200 rounded-xl p-6 md:p-8 shadow-sm">
-                <div className="mb-7">
-                  <p className="font-inter text-[10px] tracking-[0.35em] uppercase text-[#C49B08] mb-1">Saved Items</p>
-                  <h2 className="font-display text-xl font-light tracking-wide text-gray-900">My Wishlist</h2>
-                  <div className="w-6 h-px bg-[#C49B08]/40 mt-2" />
-                </div>
-                <div className="text-center py-14">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#C49B08]/8 border border-[#C49B08]/20 mb-4">
-                    <Heart className="h-6 w-6 text-[#C49B08]/60" />
-                  </div>
-                  <p className="font-inter text-sm text-gray-400 tracking-wide mb-5">Your wishlist is empty</p>
-                  <button
-                    onClick={() => router.push("/collections")}
-                    className="h-10 px-7 border border-[#C49B08] text-[#C49B08] hover:bg-[#C49B08] hover:text-white font-inter text-[11px] tracking-[0.3em] uppercase transition-colors"
-                  >
-                    Browse Collections
-                  </button>
                 </div>
               </div>
             </TabsContent>
