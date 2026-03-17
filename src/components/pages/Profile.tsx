@@ -77,7 +77,7 @@ export default function ProfilePage() {
         .eq("user_id", user!.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      setCustomRequests(data as CustomRequest[]);
+      setCustomRequests(data as unknown as CustomRequest[]);
     } catch {
       // Column may not exist yet — silently show empty state
       setCustomRequests([]);
