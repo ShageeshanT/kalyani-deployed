@@ -72,8 +72,34 @@ export function Header() {
       </div>
 
       {/* Top bar */}
-      <div className="bg-gold text-white py-1.5 md:py-2.5 text-center text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] uppercase font-light relative z-10 px-2">
-        <span>Free Shipping Across Sri Lanka From LKR 50,000</span>
+      <div className="bg-gold text-white py-[5px] md:py-[7px] text-center text-[9px] md:text-[10px] tracking-[0.25em] md:tracking-[0.4em] uppercase font-light relative z-10 px-2">
+        <span className="inline-flex items-center gap-3 md:gap-5">
+          {/* Left ornament */}
+          <span className="inline-flex items-center gap-1.5" aria-hidden="true">
+            <span className="block w-5 md:w-8 h-px bg-white/60" />
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 0.5L7.2 4.8L11.5 6L7.2 7.2L6 11.5L4.8 7.2L0.5 6L4.8 4.8Z" fill="white" fillOpacity="0.9"/>
+            </svg>
+            <span className="block w-2 md:w-3 h-px bg-white/40" />
+            <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 0L3.6 2.4L6 3L3.6 3.6L3 6L2.4 3.6L0 3L2.4 2.4Z" fill="white" fillOpacity="0.6"/>
+            </svg>
+          </span>
+
+          Crown Yourself
+
+          {/* Right ornament */}
+          <span className="inline-flex items-center gap-1.5" aria-hidden="true">
+            <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 0L3.6 2.4L6 3L3.6 3.6L3 6L2.4 3.6L0 3L2.4 2.4Z" fill="white" fillOpacity="0.6"/>
+            </svg>
+            <span className="block w-2 md:w-3 h-px bg-white/40" />
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 0.5L7.2 4.8L11.5 6L7.2 7.2L6 11.5L4.8 7.2L0.5 6L4.8 4.8Z" fill="white" fillOpacity="0.9"/>
+            </svg>
+            <span className="block w-5 md:w-8 h-px bg-white/60" />
+          </span>
+        </span>
       </div>
 
       {/* Single navbar row */}
