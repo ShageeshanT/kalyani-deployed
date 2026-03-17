@@ -164,11 +164,11 @@ export function Header() {
                   </Link>
                 )}
 
-                {/* User avatar / dropdown */}
-                <div className="relative" ref={userMenuRef}>
+                {/* User avatar / dropdown - hidden on mobile, use hamburger menu instead */}
+                <div className="relative hidden md:block" ref={userMenuRef}>
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center justify-center h-8 w-8 md:h-9 md:w-9 rounded-full bg-gold/10 hover:bg-gold/20 transition-colors border border-gold/30"
+                    className="flex items-center justify-center h-9 w-9 rounded-full bg-gold/10 hover:bg-gold/20 transition-colors border border-gold/30"
                   >
                     <User className="h-4 w-4 md:h-5 md:w-5 text-gold" />
                   </button>
