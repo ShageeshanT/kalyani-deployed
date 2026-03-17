@@ -120,9 +120,9 @@ export function TestimonialsSection() {
   const row1 = Array.from({ length: REPS }, () => testimonials).flat();
   const row2 = Array.from({ length: REPS }, () => reversed).flat();
 
-  // 150 px/s — lively but still readable. card = 300px + 24px gap = 324px
+  // 220 px/s — fast and energetic. card = 300px + 24px gap = 324px
   const cardW = 324;
-  const speed = 150;
+  const speed = 220;
   const cycleDuration = (testimonials.length * cardW) / speed;
   const duration = `${cycleDuration.toFixed(1)}s`;
 

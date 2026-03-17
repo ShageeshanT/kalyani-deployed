@@ -72,7 +72,7 @@ export function Header() {
       </div>
 
       {/* Top bar */}
-      <div className="bg-gold text-white py-[5px] md:py-[7px] text-center text-[9px] md:text-[10px] tracking-[0.25em] md:tracking-[0.4em] uppercase font-light relative z-10 px-2">
+      <div className="bg-gold text-white py-[3px] md:py-[4px] text-center text-[9px] md:text-[10px] tracking-[0.25em] md:tracking-[0.4em] uppercase font-light relative z-10 px-2">
         <span className="inline-flex items-center gap-3 md:gap-5">
           {/* Left ornament */}
           <span className="inline-flex items-center gap-1.5" aria-hidden="true">
