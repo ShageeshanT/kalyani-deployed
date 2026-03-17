@@ -66,48 +66,48 @@ const Admin = () => {
           <Tabs defaultValue="products" className="w-full">
 
             {/* Tab bar */}
-            <div className="overflow-x-auto mb-8">
-              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-6 min-w-[640px] w-full max-w-3xl shadow-sm">
+            <div className="mb-8">
+              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-3 sm:grid-cols-6 w-full max-w-3xl shadow-sm gap-1 sm:gap-0 h-auto">
                 <TabsTrigger
                   value="products"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <Package size={14} />
+                  <Package size={14} className="hidden sm:block" />
                   Products
                 </TabsTrigger>
                 <TabsTrigger
                   value="custom-requests"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <Palette size={14} />
+                  <Palette size={14} className="hidden sm:block" />
                   Custom
                 </TabsTrigger>
                 <TabsTrigger
                   value="service-tickets"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <Wrench size={14} />
+                  <Wrench size={14} className="hidden sm:block" />
                   Repairs
                 </TabsTrigger>
                 <TabsTrigger
                   value="branches"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <GitBranch size={14} />
+                  <GitBranch size={14} className="hidden sm:block" />
                   Branches
                 </TabsTrigger>
                 <TabsTrigger
                   value="gems"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <Gem size={14} />
+                  <Gem size={14} className="hidden sm:block" />
                   Gems
                 </TabsTrigger>
                 <TabsTrigger
                   value="testimonials"
-                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-xs gap-1.5 transition-all"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
                 >
-                  <MessageSquare size={14} />
+                  <MessageSquare size={14} className="hidden sm:block" />
                   Reviews
                 </TabsTrigger>
               </TabsList>
