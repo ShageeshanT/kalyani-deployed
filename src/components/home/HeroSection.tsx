@@ -71,6 +71,7 @@ export function HeroSection() {
 
   return (
     <section className="relative h-[calc(100vh-120px)] sm:h-[calc(100vh-140px)] md:h-screen w-full overflow-hidden bg-charcoal">
+      <h1 className="sr-only">New Kalyani Jewellers - Premium Gold & Gem Jewellery Shop in Sri Lanka</h1>
 
       {/* Slides */}
       {heroSlides.map((s, index) => (
