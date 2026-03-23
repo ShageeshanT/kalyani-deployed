@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://newkalyanijewellers.lk"),
   title: "New Kalyani Jewellers | Top Jewellery Shop in Sri Lanka",
   description: "Discover exquisite handcrafted gold jewellery, precious gems and bespoke designs at New Kalyani Jewellers. Sri Lanka's premium gold and gemstone jewellery shop.",
-  keywords: ["Sri Lankan jewellery shops", "Gold jewellery Sri Lanka", "Gemstones Sri Lanka", "Bespoke jewellery", "New Kalyani Jewellers", ""],
+  keywords: ["Sri Lankan jewellery shops", "Gold jewellery Sri Lanka", "Gemstones Sri Lanka", "Bespoke jewellery", "New Kalyani Jewellers", "jewellery shop in Sri Lanka"],
   alternates: {
     canonical: "https://newkalyanijewellers.lk",
   },
