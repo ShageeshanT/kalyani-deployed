@@ -9,9 +9,9 @@ const categories = [
     slug: "rings",
     description: "Elegant bands & statement pieces",
     images: [
-      "/heroimages/rings/THA_6074.jpg",
-      "/heroimages/rings/THA_6097.jpg",
-      "/heroimages/rings/THA_6151.jpg",
+      "/heroimages/rings/THA_6074.webp",
+      "/heroimages/rings/THA_6097.webp",
+      "/heroimages/rings/THA_6151.webp",
     ],
   },
   {
@@ -19,9 +19,9 @@ const categories = [
     slug: "necklaces",
     description: "Chains, pendants & chokers",
     images: [
-      "/heroimages/necklace/THA_6198.jpg",
-      "/heroimages/necklace/THA_6255.jpg",
-      "/heroimages/necklace/THA_6823.jpg",
+      "/heroimages/necklace/THA_6198.webp",
+      "/heroimages/necklace/THA_6255.webp",
+      "/heroimages/necklace/THA_6823.webp",
     ],
   },
   {
@@ -29,9 +29,9 @@ const categories = [
     slug: "earrings",
     description: "Studs, drops & hoops",
     images: [
-      "/heroimages/earrings/THA_6215.jpg",
-      "/heroimages/earrings/THA_6220.jpg",
-      "/heroimages/earrings/THA_6247.jpg",
+      "/heroimages/earrings/THA_6215.webp",
+      "/heroimages/earrings/THA_6220.webp",
+      "/heroimages/earrings/THA_6247.webp",
     ],
   },
   {
@@ -39,9 +39,9 @@ const categories = [
     slug: "bracelets",
     description: "Bangles & charm bracelets",
     images: [
-      "/heroimages/bracelets/THA_6877.jpg",
-      "/heroimages/bracelets/THA_6894.jpg",
-      "/heroimages/bracelets/THA_6905.jpg",
+      "/heroimages/bracelets/THA_6877.webp",
+      "/heroimages/bracelets/THA_6894.webp",
+      "/heroimages/bracelets/THA_6905.webp",
     ],
   },
 ];
@@ -79,6 +79,7 @@ function CategoryCard({ category, index }: CategoryCardProps) {
             key={src}
             src={src}
             alt={`${category.name} ${i + 1}`}
+            loading="lazy"
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] ease-in-out group-hover:scale-110 transition-transform ${
               i === activeIndex ? "opacity-100" : "opacity-0"
             }`}

@@ -13,9 +13,9 @@ const heroSlides = [
     cta: "Shop New In",
     href: "/new",
     images: [
-      "/heroimages/1/THA_0637.jpg",
-      "/heroimages/1/THA_0727.jpg",
-      "/heroimages/1/THA_0774.jpg",
+      "/heroimages/1/THA_0637.webp",
+      "/heroimages/1/THA_0727.webp",
+      "/heroimages/1/THA_0774.webp",
     ],
   },
   {
@@ -26,9 +26,9 @@ const heroSlides = [
     cta: "Explore Collection",
     href: "/collections",
     images: [
-      "/heroimages/2/THA_0389.jpg",
-      "/heroimages/2/THA_0673.jpg",
-      "/heroimages/2/THA_0811.jpg",
+      "/heroimages/2/THA_0389.webp",
+      "/heroimages/2/THA_0673.webp",
+      "/heroimages/2/THA_0811.webp",
     ],
   },
   {
@@ -39,9 +39,9 @@ const heroSlides = [
     cta: "View Pieces",
     href: "/collections",
     images: [
-      "/heroimages/3/THA_0430.jpg",
-      "/heroimages/3/THA_0490.jpg",
-      "/heroimages/3/THA_0863.jpg",
+      "/heroimages/3/THA_0430.webp",
+      "/heroimages/3/THA_0490.webp",
+      "/heroimages/3/THA_0863.webp",
     ],
   },
 ];
@@ -87,6 +87,7 @@ export function HeroSection() {
               alt={s.title}
               className="h-full w-full object-cover"
               style={{ objectPosition: "top" }}
+              loading={index === 0 ? "eager" : "lazy"}
             />
           </div>
 
@@ -99,6 +100,7 @@ export function HeroSection() {
                   alt={`${s.title} ${imgIndex + 1}`}
                   className="h-full w-full object-cover"
                   style={{ objectPosition: "top" }}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
             ))}

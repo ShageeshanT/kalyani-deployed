@@ -7,8 +7,10 @@ import { useRouter } from "next/navigation";
 import { Menu, X, Search, User, LogOut, Settings, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import LiquidEther from "@/components/effects/LiquidEther";
+import dynamic from "next/dynamic";
 import { useAuth } from "@/hooks/useAuth";
+
+const LiquidEther = dynamic(() => import("@/components/effects/LiquidEther"), { ssr: false });
 
 const navigation = [
   { name: "New In", href: "/new" },
