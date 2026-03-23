@@ -8,7 +8,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "New Kalyani Jewellers Premium Gold & Gem Jewellery",
+  title: "New Kalyani Jewellers | Premium Gold & Gem Jewellery",
   description:
     "Discover exquisite handcrafted gold jewellery, precious gems, and bespoke designs at New Kalyani Jewellers. Premium quality, timeless elegance.",
   keywords:
