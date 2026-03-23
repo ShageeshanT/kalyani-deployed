@@ -159,7 +159,7 @@ export default function SignInPage() {
 
         {/* Jewellery image */}
         <img
-          src="/heroimages/2/THA_0673.jpg"
+          src="/heroimages/2/THA_0673.webp"
           alt="New Kalyani Jewellers"
           className="absolute inset-0 w-full h-full object-cover object-top opacity-55"
         />

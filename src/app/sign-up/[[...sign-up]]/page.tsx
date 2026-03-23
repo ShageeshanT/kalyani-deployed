@@ -220,7 +220,7 @@ export default function SignUpPage() {
 
         {/* Jewellery image */}
         <img
-          src="/heroimages/3/THA_0430.jpg"
+          src="/heroimages/3/THA_0430.webp"
           alt="New Kalyani Jewellers"
           className="absolute inset-0 w-full h-full object-cover object-top opacity-55"
         />
