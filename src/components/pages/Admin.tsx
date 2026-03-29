@@ -3,13 +3,14 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Layout } from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Package, Palette, GitBranch, Wrench, Gem, MessageSquare } from "lucide-react";
+import { Loader2, Package, Palette, GitBranch, Wrench, Gem, MessageSquare, Users } from "lucide-react";
 import AdminProducts from "@/components/admin/AdminProducts";
 import AdminCustomRequests from "@/components/admin/AdminCustomRequests";
 import AdminRepairRequests from "@/components/admin/AdminRepairRequests";
 import AdminBranches from "@/components/admin/AdminBranches";
 import AdminGems from "@/components/admin/AdminGems";
 import AdminTestimonials from "@/components/admin/AdminTestimonials";
+import AdminUsers from "@/components/admin/AdminUsers";
 
 const Admin = () => {
   const { loading, isAdmin } = useAuth();
@@ -67,7 +68,7 @@ const Admin = () => {
 
             {/* Tab bar */}
             <div className="mb-8">
-              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-3 sm:grid-cols-6 w-full max-w-3xl shadow-sm gap-1 sm:gap-0 h-auto">
+              <TabsList className="bg-white border border-gray-200 rounded-xl p-1 grid grid-cols-4 sm:grid-cols-7 w-full max-w-4xl shadow-sm gap-1 sm:gap-0 h-auto">
                 <TabsTrigger
                   value="products"
                   className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
@@ -110,6 +111,13 @@ const Admin = () => {
                   <MessageSquare size={14} className="hidden sm:block" />
                   Reviews
                 </TabsTrigger>
+                <TabsTrigger
+                  value="users"
+                  className="font-inter font-semibold text-gray-500 data-[state=active]:bg-[#C49B08] data-[state=active]:text-white data-[state=active]:shadow-sm rounded-lg text-[10px] sm:text-xs gap-1 sm:gap-1.5 py-2 transition-all"
+                >
+                  <Users size={14} className="hidden sm:block" />
+                  Users
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -130,6 +138,9 @@ const Admin = () => {
             </TabsContent>
             <TabsContent value="testimonials">
               <AdminTestimonials />
+            </TabsContent>
+            <TabsContent value="users">
+              <AdminUsers />
             </TabsContent>
           </Tabs>
         </div>
