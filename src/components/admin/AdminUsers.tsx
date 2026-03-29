@@ -99,7 +99,7 @@ const AdminUsers = () => {
             placeholder="Search by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 font-inter text-sm border-gray-200 focus:border-[#C49B08] focus:ring-[#C49B08]/20"
+            className="pl-9 font-inter text-sm bg-white border-2 border-gray-300 rounded-lg focus:border-[#C49B08] focus:ring-2 focus:ring-[#C49B08]/30 text-gray-900 placeholder:text-gray-400 h-10"
           />
         </div>
       </div>
