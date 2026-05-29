@@ -7,6 +7,7 @@ import { Layout } from "@/components/layout/Layout";
 import {
   Award, Heart, Shield, Gem, MapPin, Phone, Mail,
   Star, Send, MessageSquare, ArrowRight,
+  FileText, ShieldCheck, ScrollText,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 
@@ -587,6 +588,71 @@ export default function About() {
                   </p>
                 </form>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Our Policies ── */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="text-center mb-12">
+              <p className="font-inter text-[11px] tracking-[0.35em] text-[#C49B08] uppercase mb-4">
+                Transparency &amp; Trust
+              </p>
+              <h2 className="font-inter text-2xl md:text-3xl font-light tracking-[0.2em] text-gray-900 mb-4">
+                OUR POLICIES
+              </h2>
+              <div className="w-10 h-px bg-[#C49B08]/50 mx-auto" />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
+              <Link
+                href="/refund"
+                target="_blank"
+                className="group text-center p-6 rounded-xl bg-white border border-gray-200 hover:border-[#C49B08]/40 hover:shadow-sm transition-all duration-300"
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#C49B08]/8 flex items-center justify-center group-hover:bg-[#C49B08]/15 transition-colors">
+                  <FileText className="h-6 w-6 text-[#C49B08]" />
+                </div>
+                <h3 className="font-inter text-sm font-semibold tracking-wide text-gray-900 mb-2">
+                  Refund Policy
+                </h3>
+                <p className="font-inter text-xs text-gray-500 leading-relaxed">
+                  Learn about our returns, exchanges, and refund process.
+                </p>
+              </Link>
+
+              <Link
+                href="/privacy"
+                target="_blank"
+                className="group text-center p-6 rounded-xl bg-white border border-gray-200 hover:border-[#C49B08]/40 hover:shadow-sm transition-all duration-300"
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#C49B08]/8 flex items-center justify-center group-hover:bg-[#C49B08]/15 transition-colors">
+                  <ShieldCheck className="h-6 w-6 text-[#C49B08]" />
+                </div>
+                <h3 className="font-inter text-sm font-semibold tracking-wide text-gray-900 mb-2">
+                  Privacy Policy
+                </h3>
+                <p className="font-inter text-xs text-gray-500 leading-relaxed">
+                  How we collect, use, and protect your personal information.
+                </p>
+              </Link>
+
+              <Link
+                href="/terms"
+                target="_blank"
+                className="group text-center p-6 rounded-xl bg-white border border-gray-200 hover:border-[#C49B08]/40 hover:shadow-sm transition-all duration-300"
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-[#C49B08]/8 flex items-center justify-center group-hover:bg-[#C49B08]/15 transition-colors">
+                  <ScrollText className="h-6 w-6 text-[#C49B08]" />
+                </div>
+                <h3 className="font-inter text-sm font-semibold tracking-wide text-gray-900 mb-2">
+                  Terms &amp; Conditions
+                </h3>
+                <p className="font-inter text-xs text-gray-500 leading-relaxed">
+                  Terms governing the use of our website and purchases.
+                </p>
+              </Link>
             </div>
           </div>
         </section>
